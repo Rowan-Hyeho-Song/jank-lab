@@ -4,7 +4,7 @@
 
 실무에서 겪은 성능 문제를 회사 코드 없이 다시 만들고, 같은 조건에서 재고, 어떻게 고쳤는지와 무엇을 버렸는지를 숫자로 남깁니다. 사례마다 재현 앱, 측정 스크립트, 결과 JSON이 함께 있어 누구나 다시 돌려 볼 수 있습니다.
 
-데모: _준비 중 (공개 후 연결)_
+**데모**: [rowan-hyeho-song.github.io/jank-lab](https://rowan-hyeho-song.github.io/jank-lab/) · 사례 2는 [바로 열기](https://rowan-hyeho-song.github.io/jank-lab/case-2/)(`?v=a` · `b` · `c`로 변형을 바꿉니다)
 
 | # | 사례 | 플랫폼 | 상태 |
 |---|---|---|---|
