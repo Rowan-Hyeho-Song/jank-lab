@@ -1,0 +1,14 @@
+{
+  "name": "jank-lab",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.22.0",
+  "scripts": {
+    "dev": "pnpm --filter ./cases/02-infinite-scroll dev",
+    "build": "pnpm --filter ./cases/02-infinite-scroll build",
+    "measure": "pnpm --filter ./cases/02-infinite-scroll measure",
+    "chart": "pnpm --filter ./cases/02-infinite-scroll chart",
+    "typecheck": "pnpm -r typecheck",
+    "measure:long": "pnpm --filter ./cases/02-infinite-scroll measure:long"
+  }
+}

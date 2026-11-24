@@ -1,0 +1,1772 @@
+{
+  "case": 2,
+  "measuredAt": "2026-11-24",
+  "conditions": {
+    "build": "vite build (production React)",
+    "browser": "Google Chrome 157.0.8103.79 (headless)",
+    "cpuThrottle": 4,
+    "viewport": "1280x800 @1x",
+    "runsPerVariant": 5,
+    "clicks": 20,
+    "cardsPerClick": 20,
+    "startCards": 20,
+    "statistic": "median of the runs",
+    "machine": "AMD Ryzen 7 9800X3D 8-Core Processor, win32"
+  },
+  "summary": {
+    "a": {
+      "totalMs": 1918.8,
+      "heapBeforeMB": 2.22,
+      "heapAfterMB": 10.89,
+      "domNodes": 14318,
+      "cardsInDom": 420,
+      "counts": {
+        "cardRenders": 6800,
+        "matchMedia": 20400,
+        "subscribes": 13800
+      },
+      "perClick": [
+        {
+          "cards": 40,
+          "ms": 55.3
+        },
+        {
+          "cards": 60,
+          "ms": 54.7
+        },
+        {
+          "cards": 80,
+          "ms": 54.8
+        },
+        {
+          "cards": 100,
+          "ms": 53.3
+        },
+        {
+          "cards": 120,
+          "ms": 61.1
+        },
+        {
+          "cards": 140,
+          "ms": 66.4
+        },
+        {
+          "cards": 160,
+          "ms": 80.2
+        },
+        {
+          "cards": 180,
+          "ms": 88.9
+        },
+        {
+          "cards": 200,
+          "ms": 90.3
+        },
+        {
+          "cards": 220,
+          "ms": 96.1
+        },
+        {
+          "cards": 240,
+          "ms": 91.9
+        },
+        {
+          "cards": 260,
+          "ms": 100.3
+        },
+        {
+          "cards": 280,
+          "ms": 109
+        },
+        {
+          "cards": 300,
+          "ms": 118.3
+        },
+        {
+          "cards": 320,
+          "ms": 114.2
+        },
+        {
+          "cards": 340,
+          "ms": 113.3
+        },
+        {
+          "cards": 360,
+          "ms": 124.6
+        },
+        {
+          "cards": 380,
+          "ms": 126.3
+        },
+        {
+          "cards": 400,
+          "ms": 140.3
+        },
+        {
+          "cards": 420,
+          "ms": 144.6
+        }
+      ]
+    },
+    "b": {
+      "totalMs": 1151.2,
+      "heapBeforeMB": 2.2,
+      "heapAfterMB": 7.49,
+      "domNodes": 14318,
+      "cardsInDom": 420,
+      "counts": {
+        "cardRenders": 400,
+        "matchMedia": 0,
+        "subscribes": 0
+      },
+      "perClick": [
+        {
+          "cards": 40,
+          "ms": 47
+        },
+        {
+          "cards": 60,
+          "ms": 43.5
+        },
+        {
+          "cards": 80,
+          "ms": 40.5
+        },
+        {
+          "cards": 100,
+          "ms": 42.6
+        },
+        {
+          "cards": 120,
+          "ms": 41.3
+        },
+        {
+          "cards": 140,
+          "ms": 44.5
+        },
+        {
+          "cards": 160,
+          "ms": 45.9
+        },
+        {
+          "cards": 180,
+          "ms": 52.2
+        },
+        {
+          "cards": 200,
+          "ms": 59.5
+        },
+        {
+          "cards": 220,
+          "ms": 60.5
+        },
+        {
+          "cards": 240,
+          "ms": 60
+        },
+        {
+          "cards": 260,
+          "ms": 60.6
+        },
+        {
+          "cards": 280,
+          "ms": 62.5
+        },
+        {
+          "cards": 300,
+          "ms": 66.5
+        },
+        {
+          "cards": 320,
+          "ms": 66.5
+        },
+        {
+          "cards": 340,
+          "ms": 62.8
+        },
+        {
+          "cards": 360,
+          "ms": 64.7
+        },
+        {
+          "cards": 380,
+          "ms": 71.7
+        },
+        {
+          "cards": 400,
+          "ms": 71.4
+        },
+        {
+          "cards": 420,
+          "ms": 72.8
+        }
+      ]
+    },
+    "c": {
+      "totalMs": 901.5,
+      "heapBeforeMB": 2.34,
+      "heapAfterMB": 3.95,
+      "domNodes": 975,
+      "cardsInDom": 28,
+      "counts": {
+        "cardRenders": 396,
+        "matchMedia": 0,
+        "subscribes": 0
+      },
+      "perClick": [
+        {
+          "cards": 40,
+          "ms": 49.7
+        },
+        {
+          "cards": 60,
+          "ms": 48.6
+        },
+        {
+          "cards": 80,
+          "ms": 45
+        },
+        {
+          "cards": 100,
+          "ms": 41.3
+        },
+        {
+          "cards": 120,
+          "ms": 39
+        },
+        {
+          "cards": 140,
+          "ms": 39.8
+        },
+        {
+          "cards": 160,
+          "ms": 39.6
+        },
+        {
+          "cards": 180,
+          "ms": 46.6
+        },
+        {
+          "cards": 200,
+          "ms": 43.3
+        },
+        {
+          "cards": 220,
+          "ms": 44.7
+        },
+        {
+          "cards": 240,
+          "ms": 45.3
+        },
+        {
+          "cards": 260,
+          "ms": 45.6
+        },
+        {
+          "cards": 280,
+          "ms": 46.4
+        },
+        {
+          "cards": 300,
+          "ms": 47.6
+        },
+        {
+          "cards": 320,
+          "ms": 46.5
+        },
+        {
+          "cards": 340,
+          "ms": 42.2
+        },
+        {
+          "cards": 360,
+          "ms": 44.5
+        },
+        {
+          "cards": 380,
+          "ms": 43.4
+        },
+        {
+          "cards": 400,
+          "ms": 46.9
+        },
+        {
+          "cards": 420,
+          "ms": 43.9
+        }
+      ]
+    }
+  },
+  "runs": [
+    {
+      "variant": "a",
+      "run": 1,
+      "samples": [
+        {
+          "cards": 40,
+          "ms": 51.4
+        },
+        {
+          "cards": 60,
+          "ms": 55.3
+        },
+        {
+          "cards": 80,
+          "ms": 48.3
+        },
+        {
+          "cards": 100,
+          "ms": 54.5
+        },
+        {
+          "cards": 120,
+          "ms": 94.1
+        },
+        {
+          "cards": 140,
+          "ms": 72.6
+        },
+        {
+          "cards": 160,
+          "ms": 78.9
+        },
+        {
+          "cards": 180,
+          "ms": 94.6
+        },
+        {
+          "cards": 200,
+          "ms": 90.3
+        },
+        {
+          "cards": 220,
+          "ms": 91.8
+        },
+        {
+          "cards": 240,
+          "ms": 95.1
+        },
+        {
+          "cards": 260,
+          "ms": 98.2
+        },
+        {
+          "cards": 280,
+          "ms": 115.3
+        },
+        {
+          "cards": 300,
+          "ms": 118.3
+        },
+        {
+          "cards": 320,
+          "ms": 118.7
+        },
+        {
+          "cards": 340,
+          "ms": 121
+        },
+        {
+          "cards": 360,
+          "ms": 124.6
+        },
+        {
+          "cards": 380,
+          "ms": 135
+        },
+        {
+          "cards": 400,
+          "ms": 143.3
+        },
+        {
+          "cards": 420,
+          "ms": 142
+        }
+      ],
+      "totalMs": 1943.3,
+      "heapBeforeMB": 2.22,
+      "heapAfterMB": 10.84,
+      "counts": {
+        "cardRenders": 6800,
+        "matchMedia": 20400,
+        "subscribes": 13800
+      },
+      "dom": {
+        "nodes": 14318,
+        "cards": 420
+      }
+    },
+    {
+      "variant": "b",
+      "run": 1,
+      "samples": [
+        {
+          "cards": 40,
+          "ms": 43.4
+        },
+        {
+          "cards": 60,
+          "ms": 43.5
+        },
+        {
+          "cards": 80,
+          "ms": 36.6
+        },
+        {
+          "cards": 100,
+          "ms": 36.8
+        },
+        {
+          "cards": 120,
+          "ms": 38.9
+        },
+        {
+          "cards": 140,
+          "ms": 39.6
+        },
+        {
+          "cards": 160,
+          "ms": 39.3
+        },
+        {
+          "cards": 180,
+          "ms": 51.7
+        },
+        {
+          "cards": 200,
+          "ms": 60.2
+        },
+        {
+          "cards": 220,
+          "ms": 80.8
+        },
+        {
+          "cards": 240,
+          "ms": 62.8
+        },
+        {
+          "cards": 260,
+          "ms": 63
+        },
+        {
+          "cards": 280,
+          "ms": 62.5
+        },
+        {
+          "cards": 300,
+          "ms": 71.4
+        },
+        {
+          "cards": 320,
+          "ms": 66.5
+        },
+        {
+          "cards": 340,
+          "ms": 65.8
+        },
+        {
+          "cards": 360,
+          "ms": 65.8
+        },
+        {
+          "cards": 380,
+          "ms": 77.7
+        },
+        {
+          "cards": 400,
+          "ms": 71.4
+        },
+        {
+          "cards": 420,
+          "ms": 73.5
+        }
+      ],
+      "totalMs": 1151.2,
+      "heapBeforeMB": 2.2,
+      "heapAfterMB": 7.49,
+      "counts": {
+        "cardRenders": 400,
+        "matchMedia": 0,
+        "subscribes": 0
+      },
+      "dom": {
+        "nodes": 14318,
+        "cards": 420
+      }
+    },
+    {
+      "variant": "c",
+      "run": 1,
+      "samples": [
+        {
+          "cards": 40,
+          "ms": 49.3
+        },
+        {
+          "cards": 60,
+          "ms": 44.5
+        },
+        {
+          "cards": 80,
+          "ms": 54.5
+        },
+        {
+          "cards": 100,
+          "ms": 40.3
+        },
+        {
+          "cards": 120,
+          "ms": 39.3
+        },
+        {
+          "cards": 140,
+          "ms": 45.9
+        },
+        {
+          "cards": 160,
+          "ms": 39.6
+        },
+        {
+          "cards": 180,
+          "ms": 48.5
+        },
+        {
+          "cards": 200,
+          "ms": 47
+        },
+        {
+          "cards": 220,
+          "ms": 46.5
+        },
+        {
+          "cards": 240,
+          "ms": 47.7
+        },
+        {
+          "cards": 260,
+          "ms": 45.6
+        },
+        {
+          "cards": 280,
+          "ms": 46.4
+        },
+        {
+          "cards": 300,
+          "ms": 47.6
+        },
+        {
+          "cards": 320,
+          "ms": 46.5
+        },
+        {
+          "cards": 340,
+          "ms": 42.2
+        },
+        {
+          "cards": 360,
+          "ms": 48.4
+        },
+        {
+          "cards": 380,
+          "ms": 43.2
+        },
+        {
+          "cards": 400,
+          "ms": 47.4
+        },
+        {
+          "cards": 420,
+          "ms": 48
+        }
+      ],
+      "totalMs": 918.4,
+      "heapBeforeMB": 2.34,
+      "heapAfterMB": 3.95,
+      "counts": {
+        "cardRenders": 396,
+        "matchMedia": 0,
+        "subscribes": 0
+      },
+      "dom": {
+        "nodes": 975,
+        "cards": 28
+      }
+    },
+    {
+      "variant": "a",
+      "run": 2,
+      "samples": [
+        {
+          "cards": 40,
+          "ms": 65.1
+        },
+        {
+          "cards": 60,
+          "ms": 47.7
+        },
+        {
+          "cards": 80,
+          "ms": 44.5
+        },
+        {
+          "cards": 100,
+          "ms": 53.3
+        },
+        {
+          "cards": 120,
+          "ms": 51.4
+        },
+        {
+          "cards": 140,
+          "ms": 58.3
+        },
+        {
+          "cards": 160,
+          "ms": 80.2
+        },
+        {
+          "cards": 180,
+          "ms": 88.9
+        },
+        {
+          "cards": 200,
+          "ms": 86.1
+        },
+        {
+          "cards": 220,
+          "ms": 96.1
+        },
+        {
+          "cards": 240,
+          "ms": 90.1
+        },
+        {
+          "cards": 260,
+          "ms": 90
+        },
+        {
+          "cards": 280,
+          "ms": 106.9
+        },
+        {
+          "cards": 300,
+          "ms": 101.8
+        },
+        {
+          "cards": 320,
+          "ms": 109
+        },
+        {
+          "cards": 340,
+          "ms": 95.2
+        },
+        {
+          "cards": 360,
+          "ms": 119.7
+        },
+        {
+          "cards": 380,
+          "ms": 100
+        },
+        {
+          "cards": 400,
+          "ms": 131.5
+        },
+        {
+          "cards": 420,
+          "ms": 130
+        }
+      ],
+      "totalMs": 1745.8,
+      "heapBeforeMB": 2.22,
+      "heapAfterMB": 10.89,
+      "counts": {
+        "cardRenders": 6800,
+        "matchMedia": 20400,
+        "subscribes": 13800
+      },
+      "dom": {
+        "nodes": 14318,
+        "cards": 420
+      }
+    },
+    {
+      "variant": "b",
+      "run": 2,
+      "samples": [
+        {
+          "cards": 40,
+          "ms": 51.6
+        },
+        {
+          "cards": 60,
+          "ms": 44.1
+        },
+        {
+          "cards": 80,
+          "ms": 57.4
+        },
+        {
+          "cards": 100,
+          "ms": 42.7
+        },
+        {
+          "cards": 120,
+          "ms": 75.7
+        },
+        {
+          "cards": 140,
+          "ms": 49.1
+        },
+        {
+          "cards": 160,
+          "ms": 53.7
+        },
+        {
+          "cards": 180,
+          "ms": 54.5
+        },
+        {
+          "cards": 200,
+          "ms": 59.5
+        },
+        {
+          "cards": 220,
+          "ms": 60.6
+        },
+        {
+          "cards": 240,
+          "ms": 61.1
+        },
+        {
+          "cards": 260,
+          "ms": 60.6
+        },
+        {
+          "cards": 280,
+          "ms": 63.3
+        },
+        {
+          "cards": 300,
+          "ms": 66.6
+        },
+        {
+          "cards": 320,
+          "ms": 73.8
+        },
+        {
+          "cards": 340,
+          "ms": 64.3
+        },
+        {
+          "cards": 360,
+          "ms": 64.7
+        },
+        {
+          "cards": 380,
+          "ms": 71.7
+        },
+        {
+          "cards": 400,
+          "ms": 73.4
+        },
+        {
+          "cards": 420,
+          "ms": 75.6
+        }
+      ],
+      "totalMs": 1224,
+      "heapBeforeMB": 2.2,
+      "heapAfterMB": 7.48,
+      "counts": {
+        "cardRenders": 400,
+        "matchMedia": 0,
+        "subscribes": 0
+      },
+      "dom": {
+        "nodes": 14318,
+        "cards": 420
+      }
+    },
+    {
+      "variant": "c",
+      "run": 2,
+      "samples": [
+        {
+          "cards": 40,
+          "ms": 51.6
+        },
+        {
+          "cards": 60,
+          "ms": 48.6
+        },
+        {
+          "cards": 80,
+          "ms": 43.9
+        },
+        {
+          "cards": 100,
+          "ms": 40.9
+        },
+        {
+          "cards": 120,
+          "ms": 38.5
+        },
+        {
+          "cards": 140,
+          "ms": 41.6
+        },
+        {
+          "cards": 160,
+          "ms": 41.7
+        },
+        {
+          "cards": 180,
+          "ms": 45.4
+        },
+        {
+          "cards": 200,
+          "ms": 42.2
+        },
+        {
+          "cards": 220,
+          "ms": 44.7
+        },
+        {
+          "cards": 240,
+          "ms": 44.7
+        },
+        {
+          "cards": 260,
+          "ms": 50.2
+        },
+        {
+          "cards": 280,
+          "ms": 43.5
+        },
+        {
+          "cards": 300,
+          "ms": 47.7
+        },
+        {
+          "cards": 320,
+          "ms": 48
+        },
+        {
+          "cards": 340,
+          "ms": 48.1
+        },
+        {
+          "cards": 360,
+          "ms": 44.5
+        },
+        {
+          "cards": 380,
+          "ms": 44.9
+        },
+        {
+          "cards": 400,
+          "ms": 44.3
+        },
+        {
+          "cards": 420,
+          "ms": 43.9
+        }
+      ],
+      "totalMs": 898.9,
+      "heapBeforeMB": 2.34,
+      "heapAfterMB": 3.95,
+      "counts": {
+        "cardRenders": 396,
+        "matchMedia": 0,
+        "subscribes": 0
+      },
+      "dom": {
+        "nodes": 975,
+        "cards": 28
+      }
+    },
+    {
+      "variant": "a",
+      "run": 3,
+      "samples": [
+        {
+          "cards": 40,
+          "ms": 77.1
+        },
+        {
+          "cards": 60,
+          "ms": 55
+        },
+        {
+          "cards": 80,
+          "ms": 54.8
+        },
+        {
+          "cards": 100,
+          "ms": 56.9
+        },
+        {
+          "cards": 120,
+          "ms": 61.1
+        },
+        {
+          "cards": 140,
+          "ms": 62
+        },
+        {
+          "cards": 160,
+          "ms": 81.8
+        },
+        {
+          "cards": 180,
+          "ms": 86.3
+        },
+        {
+          "cards": 200,
+          "ms": 90.9
+        },
+        {
+          "cards": 220,
+          "ms": 99.6
+        },
+        {
+          "cards": 240,
+          "ms": 97.6
+        },
+        {
+          "cards": 260,
+          "ms": 110.6
+        },
+        {
+          "cards": 280,
+          "ms": 109
+        },
+        {
+          "cards": 300,
+          "ms": 112.1
+        },
+        {
+          "cards": 320,
+          "ms": 113.5
+        },
+        {
+          "cards": 340,
+          "ms": 113.3
+        },
+        {
+          "cards": 360,
+          "ms": 120.5
+        },
+        {
+          "cards": 380,
+          "ms": 123.5
+        },
+        {
+          "cards": 400,
+          "ms": 140.3
+        },
+        {
+          "cards": 420,
+          "ms": 152.9
+        }
+      ],
+      "totalMs": 1918.8,
+      "heapBeforeMB": 2.22,
+      "heapAfterMB": 10.89,
+      "counts": {
+        "cardRenders": 6800,
+        "matchMedia": 20400,
+        "subscribes": 13800
+      },
+      "dom": {
+        "nodes": 14318,
+        "cards": 420
+      }
+    },
+    {
+      "variant": "b",
+      "run": 3,
+      "samples": [
+        {
+          "cards": 40,
+          "ms": 49.1
+        },
+        {
+          "cards": 60,
+          "ms": 41.5
+        },
+        {
+          "cards": 80,
+          "ms": 40.5
+        },
+        {
+          "cards": 100,
+          "ms": 41.3
+        },
+        {
+          "cards": 120,
+          "ms": 44.3
+        },
+        {
+          "cards": 140,
+          "ms": 44.5
+        },
+        {
+          "cards": 160,
+          "ms": 43.6
+        },
+        {
+          "cards": 180,
+          "ms": 52.2
+        },
+        {
+          "cards": 200,
+          "ms": 56.8
+        },
+        {
+          "cards": 220,
+          "ms": 55.3
+        },
+        {
+          "cards": 240,
+          "ms": 60
+        },
+        {
+          "cards": 260,
+          "ms": 59.8
+        },
+        {
+          "cards": 280,
+          "ms": 62.4
+        },
+        {
+          "cards": 300,
+          "ms": 66.5
+        },
+        {
+          "cards": 320,
+          "ms": 64
+        },
+        {
+          "cards": 340,
+          "ms": 60.3
+        },
+        {
+          "cards": 360,
+          "ms": 68.5
+        },
+        {
+          "cards": 380,
+          "ms": 70.1
+        },
+        {
+          "cards": 400,
+          "ms": 70
+        },
+        {
+          "cards": 420,
+          "ms": 72.8
+        }
+      ],
+      "totalMs": 1123.5,
+      "heapBeforeMB": 2.2,
+      "heapAfterMB": 7.49,
+      "counts": {
+        "cardRenders": 400,
+        "matchMedia": 0,
+        "subscribes": 0
+      },
+      "dom": {
+        "nodes": 14318,
+        "cards": 420
+      }
+    },
+    {
+      "variant": "c",
+      "run": 3,
+      "samples": [
+        {
+          "cards": 40,
+          "ms": 49.7
+        },
+        {
+          "cards": 60,
+          "ms": 49.9
+        },
+        {
+          "cards": 80,
+          "ms": 44.4
+        },
+        {
+          "cards": 100,
+          "ms": 41.8
+        },
+        {
+          "cards": 120,
+          "ms": 39
+        },
+        {
+          "cards": 140,
+          "ms": 39.8
+        },
+        {
+          "cards": 160,
+          "ms": 38.9
+        },
+        {
+          "cards": 180,
+          "ms": 69.3
+        },
+        {
+          "cards": 200,
+          "ms": 43.3
+        },
+        {
+          "cards": 220,
+          "ms": 44.1
+        },
+        {
+          "cards": 240,
+          "ms": 45.3
+        },
+        {
+          "cards": 260,
+          "ms": 43.6
+        },
+        {
+          "cards": 280,
+          "ms": 52.4
+        },
+        {
+          "cards": 300,
+          "ms": 41.5
+        },
+        {
+          "cards": 320,
+          "ms": 44.3
+        },
+        {
+          "cards": 340,
+          "ms": 41.7
+        },
+        {
+          "cards": 360,
+          "ms": 42.1
+        },
+        {
+          "cards": 380,
+          "ms": 43.4
+        },
+        {
+          "cards": 400,
+          "ms": 46.9
+        },
+        {
+          "cards": 420,
+          "ms": 40.1
+        }
+      ],
+      "totalMs": 901.5,
+      "heapBeforeMB": 2.34,
+      "heapAfterMB": 3.95,
+      "counts": {
+        "cardRenders": 396,
+        "matchMedia": 0,
+        "subscribes": 0
+      },
+      "dom": {
+        "nodes": 975,
+        "cards": 28
+      }
+    },
+    {
+      "variant": "a",
+      "run": 4,
+      "samples": [
+        {
+          "cards": 40,
+          "ms": 55.3
+        },
+        {
+          "cards": 60,
+          "ms": 52.8
+        },
+        {
+          "cards": 80,
+          "ms": 60.9
+        },
+        {
+          "cards": 100,
+          "ms": 51.5
+        },
+        {
+          "cards": 120,
+          "ms": 58.9
+        },
+        {
+          "cards": 140,
+          "ms": 73.5
+        },
+        {
+          "cards": 160,
+          "ms": 79.4
+        },
+        {
+          "cards": 180,
+          "ms": 77
+        },
+        {
+          "cards": 200,
+          "ms": 85.2
+        },
+        {
+          "cards": 220,
+          "ms": 85.8
+        },
+        {
+          "cards": 240,
+          "ms": 86.1
+        },
+        {
+          "cards": 260,
+          "ms": 133.4
+        },
+        {
+          "cards": 280,
+          "ms": 97
+        },
+        {
+          "cards": 300,
+          "ms": 121.5
+        },
+        {
+          "cards": 320,
+          "ms": 137.8
+        },
+        {
+          "cards": 340,
+          "ms": 113
+        },
+        {
+          "cards": 360,
+          "ms": 125.9
+        },
+        {
+          "cards": 380,
+          "ms": 130.9
+        },
+        {
+          "cards": 400,
+          "ms": 138.9
+        },
+        {
+          "cards": 420,
+          "ms": 144.6
+        }
+      ],
+      "totalMs": 1909.4,
+      "heapBeforeMB": 2.22,
+      "heapAfterMB": 10.89,
+      "counts": {
+        "cardRenders": 6800,
+        "matchMedia": 20400,
+        "subscribes": 13800
+      },
+      "dom": {
+        "nodes": 14318,
+        "cards": 420
+      }
+    },
+    {
+      "variant": "b",
+      "run": 4,
+      "samples": [
+        {
+          "cards": 40,
+          "ms": 47
+        },
+        {
+          "cards": 60,
+          "ms": 44
+        },
+        {
+          "cards": 80,
+          "ms": 39.7
+        },
+        {
+          "cards": 100,
+          "ms": 43.3
+        },
+        {
+          "cards": 120,
+          "ms": 41.3
+        },
+        {
+          "cards": 140,
+          "ms": 44.3
+        },
+        {
+          "cards": 160,
+          "ms": 45.9
+        },
+        {
+          "cards": 180,
+          "ms": 79.4
+        },
+        {
+          "cards": 200,
+          "ms": 59.9
+        },
+        {
+          "cards": 220,
+          "ms": 60.5
+        },
+        {
+          "cards": 240,
+          "ms": 56.6
+        },
+        {
+          "cards": 260,
+          "ms": 61.5
+        },
+        {
+          "cards": 280,
+          "ms": 62.6
+        },
+        {
+          "cards": 300,
+          "ms": 64
+        },
+        {
+          "cards": 320,
+          "ms": 67.8
+        },
+        {
+          "cards": 340,
+          "ms": 62.8
+        },
+        {
+          "cards": 360,
+          "ms": 61.7
+        },
+        {
+          "cards": 380,
+          "ms": 72.4
+        },
+        {
+          "cards": 400,
+          "ms": 73
+        },
+        {
+          "cards": 420,
+          "ms": 72.6
+        }
+      ],
+      "totalMs": 1160.3,
+      "heapBeforeMB": 2.2,
+      "heapAfterMB": 7.49,
+      "counts": {
+        "cardRenders": 400,
+        "matchMedia": 0,
+        "subscribes": 0
+      },
+      "dom": {
+        "nodes": 14318,
+        "cards": 420
+      }
+    },
+    {
+      "variant": "c",
+      "run": 4,
+      "samples": [
+        {
+          "cards": 40,
+          "ms": 47
+        },
+        {
+          "cards": 60,
+          "ms": 48.2
+        },
+        {
+          "cards": 80,
+          "ms": 47.8
+        },
+        {
+          "cards": 100,
+          "ms": 41.3
+        },
+        {
+          "cards": 120,
+          "ms": 42.5
+        },
+        {
+          "cards": 140,
+          "ms": 38.9
+        },
+        {
+          "cards": 160,
+          "ms": 39.9
+        },
+        {
+          "cards": 180,
+          "ms": 46.6
+        },
+        {
+          "cards": 200,
+          "ms": 48.3
+        },
+        {
+          "cards": 220,
+          "ms": 49.2
+        },
+        {
+          "cards": 240,
+          "ms": 47
+        },
+        {
+          "cards": 260,
+          "ms": 50.4
+        },
+        {
+          "cards": 280,
+          "ms": 46.6
+        },
+        {
+          "cards": 300,
+          "ms": 47.7
+        },
+        {
+          "cards": 320,
+          "ms": 48.4
+        },
+        {
+          "cards": 340,
+          "ms": 48.4
+        },
+        {
+          "cards": 360,
+          "ms": 47
+        },
+        {
+          "cards": 380,
+          "ms": 50.4
+        },
+        {
+          "cards": 400,
+          "ms": 52.4
+        },
+        {
+          "cards": 420,
+          "ms": 52.8
+        }
+      ],
+      "totalMs": 940.8,
+      "heapBeforeMB": 2.34,
+      "heapAfterMB": 3.95,
+      "counts": {
+        "cardRenders": 396,
+        "matchMedia": 0,
+        "subscribes": 0
+      },
+      "dom": {
+        "nodes": 975,
+        "cards": 28
+      }
+    },
+    {
+      "variant": "a",
+      "run": 5,
+      "samples": [
+        {
+          "cards": 40,
+          "ms": 53.7
+        },
+        {
+          "cards": 60,
+          "ms": 54.7
+        },
+        {
+          "cards": 80,
+          "ms": 56.2
+        },
+        {
+          "cards": 100,
+          "ms": 52.7
+        },
+        {
+          "cards": 120,
+          "ms": 64.3
+        },
+        {
+          "cards": 140,
+          "ms": 66.4
+        },
+        {
+          "cards": 160,
+          "ms": 93
+        },
+        {
+          "cards": 180,
+          "ms": 112.2
+        },
+        {
+          "cards": 200,
+          "ms": 98.8
+        },
+        {
+          "cards": 220,
+          "ms": 101.4
+        },
+        {
+          "cards": 240,
+          "ms": 91.9
+        },
+        {
+          "cards": 260,
+          "ms": 100.3
+        },
+        {
+          "cards": 280,
+          "ms": 117.9
+        },
+        {
+          "cards": 300,
+          "ms": 128.4
+        },
+        {
+          "cards": 320,
+          "ms": 114.2
+        },
+        {
+          "cards": 340,
+          "ms": 119.2
+        },
+        {
+          "cards": 360,
+          "ms": 141.6
+        },
+        {
+          "cards": 380,
+          "ms": 126.3
+        },
+        {
+          "cards": 400,
+          "ms": 146.9
+        },
+        {
+          "cards": 420,
+          "ms": 191.2
+        }
+      ],
+      "totalMs": 2031.3,
+      "heapBeforeMB": 2.22,
+      "heapAfterMB": 10.89,
+      "counts": {
+        "cardRenders": 6800,
+        "matchMedia": 20400,
+        "subscribes": 13800
+      },
+      "dom": {
+        "nodes": 14318,
+        "cards": 420
+      }
+    },
+    {
+      "variant": "b",
+      "run": 5,
+      "samples": [
+        {
+          "cards": 40,
+          "ms": 45.2
+        },
+        {
+          "cards": 60,
+          "ms": 39.4
+        },
+        {
+          "cards": 80,
+          "ms": 40.8
+        },
+        {
+          "cards": 100,
+          "ms": 42.6
+        },
+        {
+          "cards": 120,
+          "ms": 39.6
+        },
+        {
+          "cards": 140,
+          "ms": 46
+        },
+        {
+          "cards": 160,
+          "ms": 48.9
+        },
+        {
+          "cards": 180,
+          "ms": 46.3
+        },
+        {
+          "cards": 200,
+          "ms": 47
+        },
+        {
+          "cards": 220,
+          "ms": 50.8
+        },
+        {
+          "cards": 240,
+          "ms": 46.8
+        },
+        {
+          "cards": 260,
+          "ms": 54.7
+        },
+        {
+          "cards": 280,
+          "ms": 51.8
+        },
+        {
+          "cards": 300,
+          "ms": 54.3
+        },
+        {
+          "cards": 320,
+          "ms": 55.4
+        },
+        {
+          "cards": 340,
+          "ms": 52.7
+        },
+        {
+          "cards": 360,
+          "ms": 56.8
+        },
+        {
+          "cards": 380,
+          "ms": 59.4
+        },
+        {
+          "cards": 400,
+          "ms": 62.2
+        },
+        {
+          "cards": 420,
+          "ms": 63.5
+        }
+      ],
+      "totalMs": 1004.2,
+      "heapBeforeMB": 2.2,
+      "heapAfterMB": 7.49,
+      "counts": {
+        "cardRenders": 400,
+        "matchMedia": 0,
+        "subscribes": 0
+      },
+      "dom": {
+        "nodes": 14318,
+        "cards": 420
+      }
+    },
+    {
+      "variant": "c",
+      "run": 5,
+      "samples": [
+        {
+          "cards": 40,
+          "ms": 52.7
+        },
+        {
+          "cards": 60,
+          "ms": 53.2
+        },
+        {
+          "cards": 80,
+          "ms": 45
+        },
+        {
+          "cards": 100,
+          "ms": 42.9
+        },
+        {
+          "cards": 120,
+          "ms": 36.7
+        },
+        {
+          "cards": 140,
+          "ms": 38.5
+        },
+        {
+          "cards": 160,
+          "ms": 38.3
+        },
+        {
+          "cards": 180,
+          "ms": 41.3
+        },
+        {
+          "cards": 200,
+          "ms": 37.9
+        },
+        {
+          "cards": 220,
+          "ms": 39.1
+        },
+        {
+          "cards": 240,
+          "ms": 38.7
+        },
+        {
+          "cards": 260,
+          "ms": 38.3
+        },
+        {
+          "cards": 280,
+          "ms": 38.8
+        },
+        {
+          "cards": 300,
+          "ms": 41.5
+        },
+        {
+          "cards": 320,
+          "ms": 44.9
+        },
+        {
+          "cards": 340,
+          "ms": 39
+        },
+        {
+          "cards": 360,
+          "ms": 40.2
+        },
+        {
+          "cards": 380,
+          "ms": 38.2
+        },
+        {
+          "cards": 400,
+          "ms": 42.7
+        },
+        {
+          "cards": 420,
+          "ms": 38.7
+        }
+      ],
+      "totalMs": 826.6,
+      "heapBeforeMB": 2.34,
+      "heapAfterMB": 3.95,
+      "counts": {
+        "cardRenders": 396,
+        "matchMedia": 0,
+        "subscribes": 0
+      },
+      "dom": {
+        "nodes": 975,
+        "cards": 28
+      }
+    }
+  ]
+}

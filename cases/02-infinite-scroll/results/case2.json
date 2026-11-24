@@ -1,0 +1,908 @@
+{
+  "case": 2,
+  "measuredAt": "2026-11-24",
+  "conditions": {
+    "build": "vite build (production React)",
+    "browser": "Google Chrome 157.0.8103.79 (headless)",
+    "cpuThrottle": 4,
+    "viewport": "1280x800 @1x",
+    "runsPerVariant": 5,
+    "clicks": 8,
+    "cardsPerClick": 20,
+    "startCards": 20,
+    "statistic": "median of the runs",
+    "machine": "AMD Ryzen 7 9800X3D 8-Core Processor, win32"
+  },
+  "summary": {
+    "a": {
+      "totalMs": 491.9,
+      "heapBeforeMB": 2.22,
+      "heapAfterMB": 6.37,
+      "domNodes": 6165,
+      "cardsInDom": 180,
+      "counts": {
+        "cardRenders": 1280,
+        "matchMedia": 3840,
+        "subscribes": 2640
+      },
+      "perClick": [
+        {
+          "cards": 40,
+          "ms": 52.5
+        },
+        {
+          "cards": 60,
+          "ms": 51.3
+        },
+        {
+          "cards": 80,
+          "ms": 51.3
+        },
+        {
+          "cards": 100,
+          "ms": 49.9
+        },
+        {
+          "cards": 120,
+          "ms": 55.5
+        },
+        {
+          "cards": 140,
+          "ms": 57.7
+        },
+        {
+          "cards": 160,
+          "ms": 86.9
+        },
+        {
+          "cards": 180,
+          "ms": 84.7
+        }
+      ]
+    },
+    "b": {
+      "totalMs": 343.7,
+      "heapBeforeMB": 2.2,
+      "heapAfterMB": 5,
+      "domNodes": 6165,
+      "cardsInDom": 180,
+      "counts": {
+        "cardRenders": 160,
+        "matchMedia": 0,
+        "subscribes": 0
+      },
+      "perClick": [
+        {
+          "cards": 40,
+          "ms": 45.7
+        },
+        {
+          "cards": 60,
+          "ms": 42.2
+        },
+        {
+          "cards": 80,
+          "ms": 38.9
+        },
+        {
+          "cards": 100,
+          "ms": 41.7
+        },
+        {
+          "cards": 120,
+          "ms": 40.2
+        },
+        {
+          "cards": 140,
+          "ms": 41.1
+        },
+        {
+          "cards": 160,
+          "ms": 45.6
+        },
+        {
+          "cards": 180,
+          "ms": 50.7
+        }
+      ]
+    },
+    "c": {
+      "totalMs": 366.3,
+      "heapBeforeMB": 2.34,
+      "heapAfterMB": 3.8,
+      "domNodes": 984,
+      "cardsInDom": 28,
+      "counts": {
+        "cardRenders": 156,
+        "matchMedia": 0,
+        "subscribes": 0
+      },
+      "perClick": [
+        {
+          "cards": 40,
+          "ms": 48.2
+        },
+        {
+          "cards": 60,
+          "ms": 49.8
+        },
+        {
+          "cards": 80,
+          "ms": 42.4
+        },
+        {
+          "cards": 100,
+          "ms": 39.5
+        },
+        {
+          "cards": 120,
+          "ms": 38.6
+        },
+        {
+          "cards": 140,
+          "ms": 40.5
+        },
+        {
+          "cards": 160,
+          "ms": 40.9
+        },
+        {
+          "cards": 180,
+          "ms": 46.2
+        }
+      ]
+    }
+  },
+  "runs": [
+    {
+      "variant": "a",
+      "run": 1,
+      "samples": [
+        {
+          "cards": 40,
+          "ms": 52.8
+        },
+        {
+          "cards": 60,
+          "ms": 51.3
+        },
+        {
+          "cards": 80,
+          "ms": 54.8
+        },
+        {
+          "cards": 100,
+          "ms": 54.6
+        },
+        {
+          "cards": 120,
+          "ms": 59.6
+        },
+        {
+          "cards": 140,
+          "ms": 62.3
+        },
+        {
+          "cards": 160,
+          "ms": 88.2
+        },
+        {
+          "cards": 180,
+          "ms": 105.1
+        }
+      ],
+      "totalMs": 528.7,
+      "heapBeforeMB": 2.22,
+      "heapAfterMB": 6.46,
+      "counts": {
+        "cardRenders": 1280,
+        "matchMedia": 3840,
+        "subscribes": 2640
+      },
+      "dom": {
+        "nodes": 6165,
+        "cards": 180
+      }
+    },
+    {
+      "variant": "b",
+      "run": 1,
+      "samples": [
+        {
+          "cards": 40,
+          "ms": 55.6
+        },
+        {
+          "cards": 60,
+          "ms": 53.6
+        },
+        {
+          "cards": 80,
+          "ms": 66.5
+        },
+        {
+          "cards": 100,
+          "ms": 49.8
+        },
+        {
+          "cards": 120,
+          "ms": 50.9
+        },
+        {
+          "cards": 140,
+          "ms": 39.1
+        },
+        {
+          "cards": 160,
+          "ms": 48.4
+        },
+        {
+          "cards": 180,
+          "ms": 50.7
+        }
+      ],
+      "totalMs": 414.6,
+      "heapBeforeMB": 2.2,
+      "heapAfterMB": 5,
+      "counts": {
+        "cardRenders": 160,
+        "matchMedia": 0,
+        "subscribes": 0
+      },
+      "dom": {
+        "nodes": 6165,
+        "cards": 180
+      }
+    },
+    {
+      "variant": "c",
+      "run": 1,
+      "samples": [
+        {
+          "cards": 40,
+          "ms": 48.2
+        },
+        {
+          "cards": 60,
+          "ms": 63.2
+        },
+        {
+          "cards": 80,
+          "ms": 54.6
+        },
+        {
+          "cards": 100,
+          "ms": 46.1
+        },
+        {
+          "cards": 120,
+          "ms": 51
+        },
+        {
+          "cards": 140,
+          "ms": 46.8
+        },
+        {
+          "cards": 160,
+          "ms": 47.2
+        },
+        {
+          "cards": 180,
+          "ms": 42.9
+        }
+      ],
+      "totalMs": 400,
+      "heapBeforeMB": 2.34,
+      "heapAfterMB": 3.8,
+      "counts": {
+        "cardRenders": 156,
+        "matchMedia": 0,
+        "subscribes": 0
+      },
+      "dom": {
+        "nodes": 984,
+        "cards": 28
+      }
+    },
+    {
+      "variant": "a",
+      "run": 2,
+      "samples": [
+        {
+          "cards": 40,
+          "ms": 50.9
+        },
+        {
+          "cards": 60,
+          "ms": 48.7
+        },
+        {
+          "cards": 80,
+          "ms": 43.6
+        },
+        {
+          "cards": 100,
+          "ms": 49.9
+        },
+        {
+          "cards": 120,
+          "ms": 53.1
+        },
+        {
+          "cards": 140,
+          "ms": 54.5
+        },
+        {
+          "cards": 160,
+          "ms": 73.7
+        },
+        {
+          "cards": 180,
+          "ms": 84.7
+        }
+      ],
+      "totalMs": 459.1,
+      "heapBeforeMB": 2.22,
+      "heapAfterMB": 6.45,
+      "counts": {
+        "cardRenders": 1280,
+        "matchMedia": 3840,
+        "subscribes": 2640
+      },
+      "dom": {
+        "nodes": 6165,
+        "cards": 180
+      }
+    },
+    {
+      "variant": "b",
+      "run": 2,
+      "samples": [
+        {
+          "cards": 40,
+          "ms": 43.6
+        },
+        {
+          "cards": 60,
+          "ms": 40.4
+        },
+        {
+          "cards": 80,
+          "ms": 37.6
+        },
+        {
+          "cards": 100,
+          "ms": 40.8
+        },
+        {
+          "cards": 120,
+          "ms": 41.4
+        },
+        {
+          "cards": 140,
+          "ms": 41.1
+        },
+        {
+          "cards": 160,
+          "ms": 45.6
+        },
+        {
+          "cards": 180,
+          "ms": 50.7
+        }
+      ],
+      "totalMs": 341.2,
+      "heapBeforeMB": 2.2,
+      "heapAfterMB": 5,
+      "counts": {
+        "cardRenders": 160,
+        "matchMedia": 0,
+        "subscribes": 0
+      },
+      "dom": {
+        "nodes": 6165,
+        "cards": 180
+      }
+    },
+    {
+      "variant": "c",
+      "run": 2,
+      "samples": [
+        {
+          "cards": 40,
+          "ms": 44
+        },
+        {
+          "cards": 60,
+          "ms": 49.8
+        },
+        {
+          "cards": 80,
+          "ms": 39.2
+        },
+        {
+          "cards": 100,
+          "ms": 36.4
+        },
+        {
+          "cards": 120,
+          "ms": 38.6
+        },
+        {
+          "cards": 140,
+          "ms": 40.5
+        },
+        {
+          "cards": 160,
+          "ms": 35.3
+        },
+        {
+          "cards": 180,
+          "ms": 44
+        }
+      ],
+      "totalMs": 327.8,
+      "heapBeforeMB": 2.34,
+      "heapAfterMB": 3.8,
+      "counts": {
+        "cardRenders": 156,
+        "matchMedia": 0,
+        "subscribes": 0
+      },
+      "dom": {
+        "nodes": 984,
+        "cards": 28
+      }
+    },
+    {
+      "variant": "a",
+      "run": 3,
+      "samples": [
+        {
+          "cards": 40,
+          "ms": 52.5
+        },
+        {
+          "cards": 60,
+          "ms": 55.5
+        },
+        {
+          "cards": 80,
+          "ms": 49.7
+        },
+        {
+          "cards": 100,
+          "ms": 46.6
+        },
+        {
+          "cards": 120,
+          "ms": 73.7
+        },
+        {
+          "cards": 140,
+          "ms": 55.9
+        },
+        {
+          "cards": 160,
+          "ms": 72.6
+        },
+        {
+          "cards": 180,
+          "ms": 64.4
+        }
+      ],
+      "totalMs": 470.9,
+      "heapBeforeMB": 2.22,
+      "heapAfterMB": 6.37,
+      "counts": {
+        "cardRenders": 1280,
+        "matchMedia": 3840,
+        "subscribes": 2640
+      },
+      "dom": {
+        "nodes": 6165,
+        "cards": 180
+      }
+    },
+    {
+      "variant": "b",
+      "run": 3,
+      "samples": [
+        {
+          "cards": 40,
+          "ms": 42.4
+        },
+        {
+          "cards": 60,
+          "ms": 38.4
+        },
+        {
+          "cards": 80,
+          "ms": 36.1
+        },
+        {
+          "cards": 100,
+          "ms": 41.7
+        },
+        {
+          "cards": 120,
+          "ms": 37.9
+        },
+        {
+          "cards": 140,
+          "ms": 48.1
+        },
+        {
+          "cards": 160,
+          "ms": 39.1
+        },
+        {
+          "cards": 180,
+          "ms": 45.4
+        }
+      ],
+      "totalMs": 329.1,
+      "heapBeforeMB": 2.2,
+      "heapAfterMB": 4.94,
+      "counts": {
+        "cardRenders": 160,
+        "matchMedia": 0,
+        "subscribes": 0
+      },
+      "dom": {
+        "nodes": 6165,
+        "cards": 180
+      }
+    },
+    {
+      "variant": "c",
+      "run": 3,
+      "samples": [
+        {
+          "cards": 40,
+          "ms": 43.8
+        },
+        {
+          "cards": 60,
+          "ms": 45.2
+        },
+        {
+          "cards": 80,
+          "ms": 42.4
+        },
+        {
+          "cards": 100,
+          "ms": 63.1
+        },
+        {
+          "cards": 120,
+          "ms": 52.7
+        },
+        {
+          "cards": 140,
+          "ms": 43.4
+        },
+        {
+          "cards": 160,
+          "ms": 48
+        },
+        {
+          "cards": 180,
+          "ms": 60.2
+        }
+      ],
+      "totalMs": 398.8,
+      "heapBeforeMB": 2.34,
+      "heapAfterMB": 3.8,
+      "counts": {
+        "cardRenders": 156,
+        "matchMedia": 0,
+        "subscribes": 0
+      },
+      "dom": {
+        "nodes": 984,
+        "cards": 28
+      }
+    },
+    {
+      "variant": "a",
+      "run": 4,
+      "samples": [
+        {
+          "cards": 40,
+          "ms": 52.1
+        },
+        {
+          "cards": 60,
+          "ms": 48.8
+        },
+        {
+          "cards": 80,
+          "ms": 51.3
+        },
+        {
+          "cards": 100,
+          "ms": 52.9
+        },
+        {
+          "cards": 120,
+          "ms": 54.9
+        },
+        {
+          "cards": 140,
+          "ms": 57.7
+        },
+        {
+          "cards": 160,
+          "ms": 92.3
+        },
+        {
+          "cards": 180,
+          "ms": 81.9
+        }
+      ],
+      "totalMs": 491.9,
+      "heapBeforeMB": 2.22,
+      "heapAfterMB": 6.37,
+      "counts": {
+        "cardRenders": 1280,
+        "matchMedia": 3840,
+        "subscribes": 2640
+      },
+      "dom": {
+        "nodes": 6165,
+        "cards": 180
+      }
+    },
+    {
+      "variant": "b",
+      "run": 4,
+      "samples": [
+        {
+          "cards": 40,
+          "ms": 46
+        },
+        {
+          "cards": 60,
+          "ms": 48.7
+        },
+        {
+          "cards": 80,
+          "ms": 38.9
+        },
+        {
+          "cards": 100,
+          "ms": 44.7
+        },
+        {
+          "cards": 120,
+          "ms": 40.2
+        },
+        {
+          "cards": 140,
+          "ms": 38.2
+        },
+        {
+          "cards": 160,
+          "ms": 48.1
+        },
+        {
+          "cards": 180,
+          "ms": 91.1
+        }
+      ],
+      "totalMs": 395.9,
+      "heapBeforeMB": 2.2,
+      "heapAfterMB": 5,
+      "counts": {
+        "cardRenders": 160,
+        "matchMedia": 0,
+        "subscribes": 0
+      },
+      "dom": {
+        "nodes": 6165,
+        "cards": 180
+      }
+    },
+    {
+      "variant": "c",
+      "run": 4,
+      "samples": [
+        {
+          "cards": 40,
+          "ms": 49.6
+        },
+        {
+          "cards": 60,
+          "ms": 53.2
+        },
+        {
+          "cards": 80,
+          "ms": 52.3
+        },
+        {
+          "cards": 100,
+          "ms": 39.3
+        },
+        {
+          "cards": 120,
+          "ms": 38.6
+        },
+        {
+          "cards": 140,
+          "ms": 39.6
+        },
+        {
+          "cards": 160,
+          "ms": 40.9
+        },
+        {
+          "cards": 180,
+          "ms": 52.8
+        }
+      ],
+      "totalMs": 366.3,
+      "heapBeforeMB": 2.34,
+      "heapAfterMB": 3.8,
+      "counts": {
+        "cardRenders": 156,
+        "matchMedia": 0,
+        "subscribes": 0
+      },
+      "dom": {
+        "nodes": 984,
+        "cards": 28
+      }
+    },
+    {
+      "variant": "a",
+      "run": 5,
+      "samples": [
+        {
+          "cards": 40,
+          "ms": 54.1
+        },
+        {
+          "cards": 60,
+          "ms": 70.2
+        },
+        {
+          "cards": 80,
+          "ms": 52.3
+        },
+        {
+          "cards": 100,
+          "ms": 49.4
+        },
+        {
+          "cards": 120,
+          "ms": 55.5
+        },
+        {
+          "cards": 140,
+          "ms": 59.1
+        },
+        {
+          "cards": 160,
+          "ms": 86.9
+        },
+        {
+          "cards": 180,
+          "ms": 99.3
+        }
+      ],
+      "totalMs": 526.8,
+      "heapBeforeMB": 2.22,
+      "heapAfterMB": 6.37,
+      "counts": {
+        "cardRenders": 1280,
+        "matchMedia": 3840,
+        "subscribes": 2640
+      },
+      "dom": {
+        "nodes": 6165,
+        "cards": 180
+      }
+    },
+    {
+      "variant": "b",
+      "run": 5,
+      "samples": [
+        {
+          "cards": 40,
+          "ms": 45.7
+        },
+        {
+          "cards": 60,
+          "ms": 42.2
+        },
+        {
+          "cards": 80,
+          "ms": 40.1
+        },
+        {
+          "cards": 100,
+          "ms": 40.6
+        },
+        {
+          "cards": 120,
+          "ms": 39.7
+        },
+        {
+          "cards": 140,
+          "ms": 41.6
+        },
+        {
+          "cards": 160,
+          "ms": 40.4
+        },
+        {
+          "cards": 180,
+          "ms": 53.4
+        }
+      ],
+      "totalMs": 343.7,
+      "heapBeforeMB": 2.2,
+      "heapAfterMB": 5,
+      "counts": {
+        "cardRenders": 160,
+        "matchMedia": 0,
+        "subscribes": 0
+      },
+      "dom": {
+        "nodes": 6165,
+        "cards": 180
+      }
+    },
+    {
+      "variant": "c",
+      "run": 5,
+      "samples": [
+        {
+          "cards": 40,
+          "ms": 48.9
+        },
+        {
+          "cards": 60,
+          "ms": 45
+        },
+        {
+          "cards": 80,
+          "ms": 39.9
+        },
+        {
+          "cards": 100,
+          "ms": 39.5
+        },
+        {
+          "cards": 120,
+          "ms": 35.7
+        },
+        {
+          "cards": 140,
+          "ms": 37.6
+        },
+        {
+          "cards": 160,
+          "ms": 36.5
+        },
+        {
+          "cards": 180,
+          "ms": 46.2
+        }
+      ],
+      "totalMs": 329.3,
+      "heapBeforeMB": 2.34,
+      "heapAfterMB": 3.81,
+      "counts": {
+        "cardRenders": 156,
+        "matchMedia": 0,
+        "subscribes": 0
+      },
+      "dom": {
+        "nodes": 984,
+        "cards": 28
+      }
+    }
+  ]
+}

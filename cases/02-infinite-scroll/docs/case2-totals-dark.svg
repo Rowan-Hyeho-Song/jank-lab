@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 218" width="760" height="218" role="img" aria-labelledby="t d" font-family="system-ui, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif">
+<title id="t">+160장 렌더 합계와 JS heap</title>
+<desc id="d">A 그대로 492 ms, 6.4 MB; B 고침 344 ms, 5 MB; C 가상 스크롤 366 ms, 3.8 MB. 재현 측정값.</desc>
+<rect width="760" height="218" rx="12" fill="#1a1a19"/>
+<text x="24" y="30" font-size="16" font-weight="600" fill="#f0efec">20장에서 180장까지 (+160장)</text>
+<text x="24" y="50" font-size="12" fill="#c3c2b7">재현 측정값 · CPU 4배 감속 · 5회 중앙값 · 짧을수록 좋음</text>
+<text x="24" y="84" font-size="12" font-weight="600" fill="#c3c2b7">+160장 렌더 합계 (ms)</text>
+<text x="24" y="115" font-size="12" fill="#f0efec">A 그대로</text>
+<path d="M128 102h172a4 4 0 0 1 4 4v12a4 4 0 0 1 -4 4h-172z" fill="#3987e5"/>
+<text x="310" y="116" font-size="12" fill="#f0efec" style="font-variant-numeric: tabular-nums">492</text>
+<text x="24" y="155" font-size="12" fill="#f0efec">B 고침</text>
+<path d="M128 142h118.97458833096157a4 4 0 0 1 4 4v12a4 4 0 0 1 -4 4h-118.97458833096157z" fill="#d95926"/>
+<text x="256.9745883309616" y="156" font-size="12" fill="#f0efec" style="font-variant-numeric: tabular-nums">344</text>
+<text x="24" y="195" font-size="12" fill="#f0efec">C 가상 스크롤</text>
+<path d="M128 182h127.06078471233991a4 4 0 0 1 4 4v12a4 4 0 0 1 -4 4h-127.06078471233991z" fill="#199e70"/>
+<text x="265.0607847123399" y="196" font-size="12" fill="#f0efec" style="font-variant-numeric: tabular-nums">366</text>
+<line x1="128" x2="128" y1="96" y2="210" stroke="#383835" stroke-width="1"/>
+<text x="400" y="84" font-size="12" font-weight="600" fill="#c3c2b7">JS heap (GC 뒤) (MB)</text>
+<text x="400" y="115" font-size="12" fill="#f0efec">A 그대로</text>
+<path d="M504 102h172a4 4 0 0 1 4 4v12a4 4 0 0 1 -4 4h-172z" fill="#3987e5"/>
+<text x="686" y="116" font-size="12" fill="#f0efec" style="font-variant-numeric: tabular-nums">6.4</text>
+<text x="400" y="155" font-size="12" fill="#f0efec">B 고침</text>
+<path d="M504 142h134.1475667189953a4 4 0 0 1 4 4v12a4 4 0 0 1 -4 4h-134.1475667189953z" fill="#d95926"/>
+<text x="648.1475667189953" y="156" font-size="12" fill="#f0efec" style="font-variant-numeric: tabular-nums">5.0</text>
+<text x="400" y="195" font-size="12" fill="#f0efec">C 가상 스크롤</text>
+<path d="M504 182h100.9921507064364a4 4 0 0 1 4 4v12a4 4 0 0 1 -4 4h-100.9921507064364z" fill="#199e70"/>
+<text x="614.9921507064364" y="196" font-size="12" fill="#f0efec" style="font-variant-numeric: tabular-nums">3.8</text>
+<line x1="504" x2="504" y1="96" y2="210" stroke="#383835" stroke-width="1"/>
+</svg>

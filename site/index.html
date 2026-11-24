@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <title>jank-lab</title>
+    <style>
+      :root { --bg: #f6f5f2; --text: #1d1d1f; --muted: #62605b; --line: #e2dfd8; --link: #1f5fc4; }
+      @media (prefers-color-scheme: dark) { :root { --bg: #121316; --text: #ecebe8; --muted: #a3a09a; --line: #2c2f35; --link: #8ab4ff; } }
+      body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.6 system-ui, -apple-system, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif; }
+      main { max-width: 640px; margin: 0 auto; padding: 48px 16px; }
+      h1 { margin: 0 0 4px; font-size: 24px; }
+      p { margin: 0 0 24px; color: var(--muted); }
+      ul { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+      li { padding: 14px 0; border-bottom: 1px solid var(--line); }
+      a { color: var(--link); }
+      small { display: block; color: var(--muted); }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>jank-lab</h1>
+      <p>느린 화면을 재현하고, 재고, 고치는 실험실</p>
+      <ul>
+        <li><a href="./case-2/">사례 2 · 무한 스크롤 상품 목록이 길어질수록 느려지는 문제</a><small>React · matchMedia · 메모이제이션 · 가상 스크롤 비교</small></li>
+        <li>사례 1 · React Native 상세 화면 전환과 UI 스레드<small>준비 중</small></li>
+      </ul>
+    </main>
+  </body>
+</html>

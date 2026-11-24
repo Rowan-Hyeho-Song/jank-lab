@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 420" width="760" height="420" role="img" aria-labelledby="t d" font-family="system-ui, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif">
+<title id="t">더 보기 한 번에 걸린 시간 (클릭 → 다음 페인트)</title>
+<desc id="d">목록 길이에 따른 클릭부터 페인트까지의 시간. A 그대로 55에서 145 ms, B 고침 47에서 73 ms, C 가상 스크롤 50에서 44 ms. 재현 측정값, CPU 4배 감속, 5회 중앙값.</desc>
+<rect width="760" height="420" rx="12" fill="#fcfcfb"/>
+<text x="56" y="30" font-size="16" font-weight="600" fill="#0b0b0b">더 보기 한 번에 걸린 시간 (클릭 → 다음 페인트)</text>
+<text x="56" y="50" font-size="12" fill="#52514e">재현 측정값 · CPU 4배 감속 · 5회 중앙값 · 20장씩 더 보기</text>
+<rect x="56" y="98" width="233.60000000000002" height="272" fill="#f1f0ec"/>
+<text x="62" y="112" font-size="11" fill="#6f6d68">기본 측정 구간 (+160장)</text>
+<line x1="56" x2="640" y1="370" y2="370" stroke="#c3c2b7" stroke-width="1"/>
+<text x="48" y="374" font-size="11" fill="#6f6d68" text-anchor="end" style="font-variant-numeric: tabular-nums">0</text>
+<line x1="56" x2="640" y1="279.33333333333337" y2="279.33333333333337" stroke="#e1e0d9" stroke-width="1"/>
+<text x="48" y="283.33333333333337" font-size="11" fill="#6f6d68" text-anchor="end" style="font-variant-numeric: tabular-nums">50</text>
+<line x1="56" x2="640" y1="188.66666666666669" y2="188.66666666666669" stroke="#e1e0d9" stroke-width="1"/>
+<text x="48" y="192.66666666666669" font-size="11" fill="#6f6d68" text-anchor="end" style="font-variant-numeric: tabular-nums">100</text>
+<line x1="56" x2="640" y1="98" y2="98" stroke="#e1e0d9" stroke-width="1"/>
+<text x="48" y="102" font-size="11" fill="#6f6d68" text-anchor="end" style="font-variant-numeric: tabular-nums">150</text>
+<text x="172.8" y="388" font-size="11" fill="#6f6d68" text-anchor="middle">100</text>
+<text x="289.6" y="388" font-size="11" fill="#6f6d68" text-anchor="middle">180</text>
+<text x="406.4" y="388" font-size="11" fill="#6f6d68" text-anchor="middle">260</text>
+<text x="523.2" y="388" font-size="11" fill="#6f6d68" text-anchor="middle">340</text>
+<text x="640" y="388" font-size="11" fill="#6f6d68" text-anchor="middle">420</text>
+<text x="348" y="410" font-size="11" fill="#6f6d68" text-anchor="middle">더 보기 뒤 화면의 카드 수 (장)</text>
+<text x="14" y="234" font-size="11" fill="#6f6d68" text-anchor="middle" transform="rotate(-90 14 234)">ms</text>
+<polyline points="85.2,269.7 114.4,270.8 143.6,270.6 172.8,273.3 202.0,259.2 231.2,249.6 260.4,224.6 289.6,208.8 318.8,206.3 348.0,195.7 377.2,203.4 406.4,188.1 435.6,172.3 464.8,155.5 494.0,162.9 523.2,164.5 552.4,144.1 581.6,141.0 610.8,115.6 640.0,107.8" fill="none" stroke="#2a78d6" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="640" cy="107.79200000000003" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<polyline points="85.2,284.8 114.4,291.1 143.6,296.6 172.8,292.8 202.0,295.1 231.2,289.3 260.4,286.8 289.6,275.3 318.8,262.1 348.0,260.3 377.2,261.2 406.4,260.1 435.6,256.7 464.8,249.4 494.0,249.4 523.2,256.1 552.4,252.7 581.6,240.0 610.8,240.5 640.0,238.0" fill="none" stroke="#eb6834" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="640" cy="237.98933333333332" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<polyline points="85.2,279.9 114.4,281.9 143.6,288.4 172.8,295.1 202.0,299.3 231.2,297.8 260.4,298.2 289.6,285.5 318.8,291.5 348.0,288.9 377.2,287.9 406.4,287.3 435.6,285.9 464.8,283.7 494.0,285.7 523.2,293.5 552.4,289.3 581.6,291.3 610.8,285.0 640.0,290.4" fill="none" stroke="#1baf7a" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="640" cy="290.3946666666667" r="4" fill="#1baf7a" stroke="#fcfcfb" stroke-width="2"/>
+<text x="652" y="105.79200000000003" font-size="12" font-weight="600" fill="#0b0b0b">A 그대로</text>
+<text x="652" y="120.79200000000003" font-size="11" fill="#52514e">145 ms</text>
+<text x="652" y="235.98933333333332" font-size="12" font-weight="600" fill="#0b0b0b">B 고침</text>
+<text x="652" y="250.98933333333332" font-size="11" fill="#52514e">73 ms</text>
+<text x="652" y="288.3946666666667" font-size="12" font-weight="600" fill="#0b0b0b">C 가상 스크롤</text>
+<text x="652" y="303.3946666666667" font-size="11" fill="#52514e">44 ms</text>
+<rect x="56" y="68" width="14" height="4" rx="2" fill="#2a78d6"/><text x="75" y="74" font-size="11" fill="#52514e">A 그대로</text>
+<rect x="145" y="68" width="14" height="4" rx="2" fill="#eb6834"/><text x="164" y="74" font-size="11" fill="#52514e">B 고침</text>
+<rect x="223" y="68" width="14" height="4" rx="2" fill="#1baf7a"/><text x="242" y="74" font-size="11" fill="#52514e">C 가상 스크롤</text>
+</svg>

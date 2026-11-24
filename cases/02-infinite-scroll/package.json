@@ -1,0 +1,28 @@
+{
+  "name": "case-02-infinite-scroll",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 5392",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview --port 4319 --strictPort",
+    "measure": "vite build && node scripts/measure.mjs && node scripts/chart.mjs",
+    "chart": "node scripts/chart.mjs",
+    "typecheck": "tsc -b",
+    "measure:long": "vite build && node scripts/measure.mjs --long && node scripts/chart.mjs"
+  },
+  "dependencies": {
+    "@tanstack/react-virtual": "^3.14.28",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.3.0",
+    "playwright-core": "1.65.1",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.8"
+  }
+}
