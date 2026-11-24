@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState, type ComponentRef, type RefObject } from 'react'
-import { Animated, Image, Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native'
+import { memo, useCallback, useEffect, useRef, useState, type ComponentType } from 'react'
+import { Animated, Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { PRODUCTS, REVIEW_ROWS, reviews, won, type Review } from './data'
 import { BAR, C, EDGE, RATIO } from './layout'
@@ -24,9 +24,10 @@ type Props = {
   variant: Variant
   settled: boolean
   onBack: () => void
-  /** the hero hides while the flying copy of the picture (App.tsx) is on its way */
-  heroHidden: boolean
-  heroRef: RefObject<ComponentRef<typeof View> | null>
+  /** the hero hides while the flying copy of the picture (App.tsx) stands in for it, on the native driver */
+  heroOpacity: Animated.AnimatedInterpolation<number>
+  /** how far the screen is scrolled, so closing can start the copy where the hero is */
+  onScrollY: (y: number) => void
   /** the text under the hero rises and fades in with the transition (App.tsx, DESIGN.md 4.2) */
   text: { opacity: Animated.AnimatedInterpolation<number> | Animated.Value; translateY: Animated.AnimatedInterpolation<number> | number }
 }
@@ -34,7 +35,7 @@ type Props = {
 /** E: rows mounted per frame */
 const CHUNK = 5
 
-export function DetailScreen({ id, t0, variant, settled, onBack, heroHidden, heroRef, text }: Props) {
+export function DetailScreen({ id, t0, variant, settled, onBack, heroOpacity, onScrollY, text }: Props) {
   const p = PRODUCTS[id]
   const insets = useSafeAreaInsets()
   const { width } = useWindowDimensions()
@@ -57,11 +58,11 @@ export function DetailScreen({ id, t0, variant, settled, onBack, heroHidden, her
     return () => cancelAnimationFrame(f)
   }, [heavy, shown])
 
-  const onLayout = () => {
+  const onLayout = useCallback(() => {
     if (laidOut.current || shown < REVIEW_ROWS) return
     laidOut.current = true
     report(variant, 'content', performance.now() - t0)
-  }
+  }, [shown, variant, t0])
 
   return (
     <View style={[s.screen, { paddingTop: insets.top }]}>
@@ -71,9 +72,9 @@ export function DetailScreen({ id, t0, variant, settled, onBack, heroHidden, her
         </Pressable>
         <Text style={s.barTitle}>상품 상세</Text>
       </View>
-      <ScrollView contentContainerStyle={{ paddingBottom: insets.bottom + EDGE }}>
-        <View ref={heroRef} collapsable={false} style={{ width, height: width * RATIO, backgroundColor: '#e9e6df' }}>
-          <Image source={PHOTOS[p.photo]} style={[s.fill, heroHidden && s.hidden]} resizeMode="cover" />
+      <ScrollView contentContainerStyle={{ paddingBottom: insets.bottom + EDGE }} scrollEventThrottle={32} onScroll={(e) => onScrollY(e.nativeEvent.contentOffset.y)}>
+        <View style={{ width, height: width * RATIO, backgroundColor: '#e9e6df' }}>
+          <Animated.Image source={PHOTOS[p.photo]} style={[s.fill, { opacity: heroOpacity }]} resizeMode="cover" />
         </View>
         <Animated.View style={{ opacity: text.opacity, transform: [{ translateY: text.translateY }] }}>
         <View style={s.info}>
@@ -84,11 +85,7 @@ export function DetailScreen({ id, t0, variant, settled, onBack, heroHidden, her
         </View>
         <Text style={s.section}>리뷰 {REVIEW_ROWS}개</Text>
         {heavy ? (
-          <View onLayout={onLayout} accessibilityLabel="reviews">
-            {data!.slice(0, shown).map((r) => (
-              <Row key={r.id} r={r} />
-            ))}
-          </View>
+          <Reviews data={data!} shown={shown} Row={Row} onLayout={onLayout} />
         ) : (
           <View accessibilityLabel="reviews-placeholder">
             {[0, 1, 2].map((i) => (
@@ -102,6 +99,17 @@ export function DetailScreen({ id, t0, variant, settled, onBack, heroHidden, her
   )
 }
 
+/** the review list, apart: the hero and the text above it change during closing, and that must not render 150 rows again */
+const Reviews = memo(function Reviews({ data, shown, Row, onLayout }: { data: Review[]; shown: number; Row: ComponentType<{ r: Review }>; onLayout: () => void }) {
+  return (
+    <View onLayout={onLayout} accessibilityLabel="reviews">
+      {data.slice(0, shown).map((r) => (
+        <Row key={r.id} r={r} />
+      ))}
+    </View>
+  )
+})
+
 const s = StyleSheet.create({
   screen: { flex: 1, backgroundColor: C.bg },
   bar: { height: BAR, flexDirection: 'row', alignItems: 'center', paddingHorizontal: EDGE - 12 },
@@ -109,7 +117,6 @@ const s = StyleSheet.create({
   back: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center' },
   chevron: { width: 12, height: 12, marginLeft: 4, borderLeftWidth: 2, borderBottomWidth: 2, borderColor: C.text, transform: [{ rotate: '45deg' }] },
   fill: { width: '100%', height: '100%' },
-  hidden: { opacity: 0 },
   info: { paddingHorizontal: EDGE, paddingTop: 20, paddingBottom: 8 },
   brand: { fontSize: 13, lineHeight: 18, fontWeight: '600', color: C.muted },
   title: { marginTop: 4, fontSize: 22, lineHeight: 28, color: C.text },

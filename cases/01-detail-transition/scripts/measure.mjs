@@ -36,13 +36,18 @@ async function oneSet(variant) {
   await launch(variant)
   const card = centreOf('card-0')
   const tap = () => sh(`input tap ${card.x} ${card.y}`)
-  const back = () => sh('input keyevent 4')
-  for (let i = 0; i < 2; i++) {
-    tap()
-    await sleep(OPEN_WAIT)
-    back()
-    await sleep(CLOSE_WAIT)
-  }
+  // closing is a tap on the screen's back button, as a person would: a key event does not raise the display's
+  // refresh rate the way a touch does, and the phone's idle low refresh then delays the first frame of the closing
+  tap()
+  await sleep(OPEN_WAIT)
+  const backButton = centreOf('목록으로')
+  const back = () => sh(`input tap ${backButton.x} ${backButton.y}`)
+  back()
+  await sleep(CLOSE_WAIT)
+  tap()
+  await sleep(OPEN_WAIT)
+  back()
+  await sleep(CLOSE_WAIT)
   const since = Number(sh('date +%s').trim())
   sh(`dumpsys gfxinfo ${PKG} reset`)
   const open = []

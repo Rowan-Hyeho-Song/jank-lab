@@ -6,13 +6,16 @@ import { Linking } from 'react-native'
 
 export type Variant = 'a' | 'b' | 'c' | 'd' | 'e'
 
-export const VARIANTS: { id: Variant; label: string; note: string }[] = [
-  { id: 'a', label: 'A 그대로', note: '의도한 끊김: 전환 중에 리뷰 150행을 한꺼번에 마운트합니다' },
-  { id: 'b', label: 'B 고침', note: '전환이 끝난 뒤에 리뷰를 마운트합니다' },
-  { id: 'c', label: 'C 그리기 줄이기', note: 'A에서 그림자·둥근 모서리·사진을 빼고 memo로 감쌉니다' },
-  { id: 'd', label: 'D 애니메이션 빼기', note: 'A에서 전환 애니메이션만 끕니다' },
-  { id: 'e', label: 'E 미루고 나누기', note: 'B처럼 전환 뒤에, 한 프레임에 5행씩 나눠 마운트합니다' },
+/** `warn`: A is the slow one on purpose (DESIGN.md 5: amber, "의도한 끊김") */
+export const VARIANTS: { id: Variant; name: string; note: string; warn?: true }[] = [
+  { id: 'a', name: '그대로', note: '전환 중에 리뷰 150행을 한꺼번에 마운트합니다', warn: true },
+  { id: 'b', name: '고침', note: '전환이 끝난 뒤에 리뷰를 마운트합니다' },
+  { id: 'c', name: '그리기 줄이기', note: 'A에서 그림자·둥근 모서리·사진을 빼고 memo로 감쌉니다' },
+  { id: 'd', name: '애니메이션 빼기', note: 'A에서 전환 애니메이션만 끕니다' },
+  { id: 'e', name: '미루고 나누기', note: 'B처럼 전환 뒤에, 한 프레임에 5행씩 나눠 마운트합니다' },
 ]
+
+export const letter = (v: Variant) => v.toUpperCase()
 
 let current: Variant = 'b'
 const subs = new Set<() => void>()

@@ -15,6 +15,8 @@ export const C = {
   muted: '#6b6962',
   line: '#dedad2',
   accent: '#1d1d1f',
+  /** DESIGN.md 5: the amber that marks A, the slow one on purpose */
+  warn: '#a35a00',
 }
 
 export type Rect = { x: number; y: number; w: number; h: number }

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState, type ComponentRef } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { AccessibilityInfo, Animated, BackHandler, Easing, StatusBar, StyleSheet, View, useWindowDimensions } from 'react-native'
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { PRODUCTS } from './src/data'
@@ -9,45 +9,55 @@ import { PHOTOS } from './src/photos'
 import { report } from './src/timing'
 import { getVariant, listenForVariantLinks, type Variant } from './src/variant'
 
-// The list <-> detail transition (DESIGN.md 4.2), 340 ms: the tapped card's picture grows from its place in the grid
-// into the detail screen's hero, and shrinks back on closing. One copy of the picture, drawn at hero size with square
-// corners, is laid over both screens and moved with translate + scale. Everything runs on the native driver from one
-// linear clock per direction (`open` 0 -> 1, `close` 0 -> 1), with the ms windows of the design:
+// The list <-> detail transition (DESIGN.md 4.2), 340 ms each way: the tapped card's picture grows from its place in
+// the grid into the detail screen's hero, and shrinks back on closing. One copy of the picture, drawn at hero size
+// with square corners, lies over both screens and is moved with translate + scale.
 //
-//   opening                                         closing
-//   0-100    copy fades in over the card picture    0-220    detail text fades, sinks 16
-//   100      card picture hides                     140-340  detail background fades
-//   0-200    detail background fades in             0-340    copy shrinks back to the card
-//   120-340  detail text rises 16 -> 0, fades in    240-340  copy fades out over the card picture
-//   0-340    copy grows into the hero's place                (the card picture shows the whole time)
-//   340      the real hero shows, the copy goes: the "transition end" that B and E wait for
+// One clock M drives everything on the native driver: opening runs it 0 -> 1, closing 1.001 -> 2 (it rests at 1 while
+// the detail screen is open and at 2 while the list is). Every binding is made once, when the detail screen opens, so
+// closing is only "start the clock": no React render, no mount, no picture to decode before the first frame.
+//
+//   opening (0 -> 1)                                 closing (1.001 -> 2)
+//   0-100    copy fades in over the card picture     0-220    detail text fades, sinks 16
+//   100      card picture hides                      140-340  detail background fades
+//   0-200    detail background fades in              0-340    copy shrinks back to the card
+//   120-340  detail text rises 16 -> 0, fades in     240-340  copy fades out over the card picture
+//   0-340    copy grows into the hero's place                 (the card picture shows the whole time)
+//   340      the real hero shows, the copy hides: the "transition end" that B and E wait for
 //
 // The UI thread draws every frame, so whatever else holds the UI thread (creating and laying out native views) holds
-// the picture too. D has no transition; with reduce motion (or a hero scrolled away) it is a 200 ms fade.
+// the picture too. D has no transition. With reduce motion, or a hero scrolled out of sight, it is a 200 ms fade.
 
 const MS = 340
 const FADE_MS = 200
-const at = (ms: number) => ms / MS
+/** where closing starts on the clock: just past 1, so the open-at-rest values (copy hidden, hero shown) differ */
+const C0 = 1.001
+const open_ = (ms: number) => ms / MS
+const close_ = (ms: number) => C0 + (ms / MS) * (2 - C0)
 /** Easing.out(Easing.poly(4)) as a table: the native driver interpolates linearly between these points */
-const EASE_IN = Array.from({ length: 33 }, (_, i) => i / 32)
-const EASE_OUT = EASE_IN.map((t) => Easing.out(Easing.poly(4))(t))
+const T = Array.from({ length: 33 }, (_, i) => i / 32)
+const E = T.map((t) => Easing.out(Easing.poly(4))(t))
 
 type Open = { id: number; t0: number; variant: Variant; from: Rect }
-type Fly = { from: Rect; to: Rect }
-type Phase = 'idle' | 'opening' | 'open' | 'closing'
 
 function Stack() {
-  const { width, height } = useWindowDimensions()
+  const { width } = useWindowDimensions()
   const insets = useSafeAreaInsets()
   const [open, setOpen] = useState<Open | null>(null)
   const [lastId, setLastId] = useState<number | null>(null)
-  const [phase, setPhase] = useState<Phase>('idle')
-  const [fly, setFly] = useState<Fly | null>(null)
+  const [settled, setSettled] = useState(false)
   const [fade, setFade] = useState(false)
   const [reduce, setReduce] = useState(false)
-  const openT = useRef(new Animated.Value(0)).current
-  const closeT = useRef(new Animated.Value(1)).current
-  const hero = useRef<ComponentRef<typeof View>>(null)
+  const M = useRef(new Animated.Value(2)).current
+  const shift = useRef(new Animated.Value(0)).current
+  const scrollY = useRef(0)
+  const phase = useRef<'idle' | 'opening' | 'open' | 'closing'>('idle')
+  // On Android the native animated module runs queued operations ("start this animation") only when Fabric next
+  // dispatches a mount. Closing changes no view, so its start waited ~70 ms for some unrelated mount. After every
+  // start, `kick` moves one invisible pixel, which is a mount. It waits one macrotask: Animated sends its queue to
+  // native with setImmediate, and the mount has to come after that.
+  const [kick, setKick] = useState(0)
+  const flush = useCallback(() => void setTimeout(() => setKick((k) => k + 1), 0), [])
 
   useEffect(listenForVariantLinks, [])
   useEffect(() => {
@@ -56,66 +66,82 @@ function Stack() {
     return () => sub.remove()
   }, [])
 
+  const hero: Rect = { x: 0, y: insets.top + BAR, w: width, h: width * RATIO }
+
   const onOpen = useCallback(
     (id: number, t0: number, from: Rect) => {
-      if (phase !== 'idle') return
-      const variant = getVariant()
-      const plain = variant !== 'd' && reduce
-      setOpen({ id, t0, variant, from })
+      if (phase.current !== 'idle') return
+      phase.current = 'opening'
+      M.setValue(0)
+      shift.setValue(0)
+      scrollY.current = 0
+      setFade(reduce)
+      setSettled(false)
+      setOpen({ id, t0, variant: getVariant(), from })
       setLastId(id)
-      setFade(plain)
-      setFly(variant === 'd' || plain ? null : { from, to: { x: 0, y: insets.top + BAR, w: width, h: width * RATIO } })
-      setPhase('opening')
     },
-    [phase, reduce, insets.top, width],
+    [reduce, M, shift],
   )
+  const openRef = useRef(onOpen)
+  openRef.current = onOpen
+  // one function for the list's whole life, so its cards (memo) do not render again
+  const onOpenStable = useCallback((id: number, t0: number, from: Rect) => openRef.current(id, t0, from), [])
 
-  // the clocks start once the detail screen and the copy are mounted
+  // the opening clock starts once the detail screen and the copy are mounted
   useEffect(() => {
-    if (phase !== 'opening' || !open) return
+    if (!open || phase.current !== 'opening') return
     const done = () => {
       report(open.variant, 'transition', performance.now() - open.t0)
-      setFly(null)
-      setPhase('open')
+      phase.current = 'open'
+      setSettled(true)
     }
-    openT.setValue(0)
     if (open.variant === 'd') {
-      openT.setValue(1)
+      M.setValue(1)
+      flush()
       done()
       return
     }
-    Animated.timing(openT, { toValue: 1, duration: fade ? FADE_MS : MS, easing: Easing.linear, useNativeDriver: true }).start(done)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [phase])
+    Animated.timing(M, { toValue: 1, duration: fade ? FADE_MS : MS, easing: Easing.linear, useNativeDriver: true }).start(done)
+    flush()
+  }, [open, fade, M, flush])
 
-  useEffect(() => {
-    if (phase !== 'closing') return
-    closeT.setValue(0)
-    Animated.timing(closeT, { toValue: 1, duration: fade ? FADE_MS : MS, easing: Easing.linear, useNativeDriver: true }).start(() => {
-      setFly(null)
-      setOpen(null)
-      setPhase('idle')
-    })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [phase])
+  const closed = useCallback(() => {
+    phase.current = 'idle'
+    setOpen(null)
+    setFade(false)
+  }, [])
+
+  const startClosing = useCallback(
+    (ms: number) => {
+      M.setValue(C0)
+      Animated.timing(M, { toValue: 2, duration: ms, easing: Easing.linear, useNativeDriver: true }).start(closed)
+      flush()
+    },
+    [M, closed, flush],
+  )
 
   const onBack = useCallback(() => {
-    if (!open || phase !== 'open') return
+    if (!open || phase.current !== 'open') return
+    phase.current = 'closing'
     if (open.variant === 'd') {
-      closeT.setValue(1)
-      setOpen(null)
-      setPhase('idle')
+      M.setValue(2)
+      closed()
       return
     }
-    // back to the card, from wherever the hero is now (the detail screen may have been scrolled); off screen: a fade
-    hero.current?.measureInWindow((x, y, w, h) => {
-      const onScreen = h > 0 && y + h > 0 && y < height
-      const plain = reduce || !onScreen
-      setFade(plain)
-      setFly(plain ? null : { from: open.from, to: { x, y, w, h } })
-      setPhase('closing')
-    })
-  }, [open, phase, reduce, height, closeT])
+    // the hero scrolled out of sight: a fade instead (this one path renders first, to bind the fade)
+    if (!fade && scrollY.current >= hero.h) {
+      setFade(true)
+      return
+    }
+    // the copy starts where the hero is now
+    shift.setValue(-scrollY.current)
+    startClosing(fade ? FADE_MS : MS)
+  }, [open, fade, hero.h, M, shift, closed, startClosing])
+
+  // the fade fallback above: start once the fade bindings are in
+  useEffect(() => {
+    if (fade && phase.current === 'closing') startClosing(FADE_MS)
+  }, [fade, startClosing])
 
   useEffect(() => {
     if (!open) return
@@ -126,69 +152,71 @@ function Stack() {
     return () => sub.remove()
   }, [open, onBack])
 
-  // The bindings. The closing ones stay bound after closing (closeT rests at 1): a native-driven prop that is unbound
-  // keeps its last native value, so the card picture would stay hidden.
-  const closingSide = phase === 'closing' || phase === 'idle'
-  const T = closingSide ? closeT : openT
-  const ms = (a: number, b: number) => (fade ? [0, 1] : [at(a), at(b)])
-  const v = closingSide
-    ? {
-        pos: T.interpolate({ inputRange: EASE_IN, outputRange: EASE_OUT.map((e) => 1 - e) }),
-        copy: T.interpolate({ inputRange: [0, at(240), 1], outputRange: [1, 1, 0] }),
-        card: T.interpolate({ inputRange: [0, 1], outputRange: [1, 1] }),
-        background: T.interpolate({ inputRange: fade ? [0, 1] : [0, at(140), 1], outputRange: fade ? [1, 0] : [1, 1, 0] }),
-        textOpacity: T.interpolate({ inputRange: fade ? [0, 1] : [0, at(220), 1], outputRange: fade ? [1, 0] : [1, 0, 0] }),
-        textY: T.interpolate({ inputRange: [0, ms(0, 220)[1], 1], outputRange: fade ? [0, 0, 0] : [0, 16, 16] }),
+  const moving = !!open && open.variant !== 'd' && !fade
+  const from = open?.from
+  // all bindings, made once per opening
+  const v = useMemo(() => {
+    const map = (input: number[], output: number[]) => M.interpolate({ inputRange: input, outputRange: output, extrapolate: 'clamp' })
+    if (!moving || !from) {
+      return {
+        copy: null,
+        hero: map([0, 2], [1, 1]),
+        card: map([0, 2], [1, 1]),
+        background: map([0, 1, C0, 2], [0, 1, 1, 0]),
+        textOpacity: map([0, 1, C0, 2], [0, 1, 1, 0]),
+        textY: map([0, 2], [0, 0]),
       }
-    : {
-        pos: T.interpolate({ inputRange: EASE_IN, outputRange: EASE_OUT }),
-        copy: T.interpolate({ inputRange: [0, at(100), 1], outputRange: [0, 1, 1] }),
-        card: fly ? T.interpolate({ inputRange: [0, at(100), at(100) + 0.001, 1], outputRange: [1, 1, 0, 0] }) : T.interpolate({ inputRange: [0, 1], outputRange: [1, 1] }),
-        background: T.interpolate({ inputRange: fade ? [0, 1] : [0, at(200), 1], outputRange: fade ? [0, 1] : [0, 1, 1] }),
-        textOpacity: T.interpolate({ inputRange: fade ? [0, 1] : [0, at(120), 1], outputRange: fade ? [0, 1] : [0, 0, 1] }),
-        textY: T.interpolate({ inputRange: [0, ms(120, 340)[0], 1], outputRange: fade ? [0, 0, 0] : [16, 16, 0] }),
-      }
+    }
+    const pos = map([...T, ...T.map((t) => C0 + t * (2 - C0))], [...E, ...E.map((e) => 1 - e)])
+    return {
+      copy: {
+        opacity: map([0, open_(100), 0.999, 1, C0, close_(240), 2], [0, 1, 1, 0, 1, 1, 0]),
+        x: pos.interpolate({ inputRange: [0, 1], outputRange: [from.x + from.w / 2 - (hero.x + hero.w / 2), 0] }),
+        y: Animated.add(pos.interpolate({ inputRange: [0, 1], outputRange: [from.y + from.h / 2 - (hero.y + hero.h / 2), 0] }), shift),
+        scale: pos.interpolate({ inputRange: [0, 1], outputRange: [from.w / hero.w, 1] }),
+      },
+      hero: map([0, 0.999, 1, C0, 2], [0, 0, 1, 0, 0]),
+      card: map([0, open_(100), open_(100) + 0.0001, 1, C0, 2], [1, 1, 0, 0, 1, 1]),
+      background: map([0, open_(200), 1, close_(140), 2], [0, 1, 1, 1, 0]),
+      textOpacity: map([0, open_(120), 1, C0, close_(220), 2], [0, 0, 1, 1, 0, 0]),
+      textY: map([0, open_(120), 1, C0, close_(220), 2], [16, 16, 0, 0, 16, 16]),
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [moving, from, width, insets.top])
 
   return (
     <>
-      <ListScreen onOpen={onOpen} hiddenId={lastId} hiddenOpacity={v.card} />
+      <View collapsable={false} pointerEvents="none" style={[s.kick, { left: kick % 2 }]} />
+      <ListScreen onOpen={onOpenStable} hiddenId={lastId} hiddenOpacity={v.card} />
       {open && (
         <Animated.View style={[StyleSheet.absoluteFill, { opacity: v.background }]}>
           <DetailScreen
             id={open.id}
             t0={open.t0}
             variant={open.variant}
-            settled={phase === 'open' || phase === 'closing'}
+            settled={settled}
             onBack={onBack}
-            heroHidden={fly !== null}
-            heroRef={hero}
+            heroOpacity={v.hero}
+            onScrollY={(y) => (scrollY.current = y)}
             text={{ opacity: v.textOpacity, translateY: v.textY }}
           />
         </Animated.View>
       )}
-      {open && fly && (
-        <Animated.Image
-          source={PHOTOS[PRODUCTS[open.id].photo]}
-          resizeMode="cover"
+      {open && v.copy && (
+        // two layers, so the move and the size never mix: the outer one only moves (screen units), the inner picture
+        // only scales about its own centre (in one transform list the move came out scaled on Android)
+        <Animated.View
           pointerEvents="none"
-          style={{
-            position: 'absolute',
-            left: fly.to.x,
-            top: fly.to.y,
-            width: fly.to.w,
-            height: fly.to.h,
-            opacity: v.copy,
-            transform: [
-              { translateX: v.pos.interpolate({ inputRange: [0, 1], outputRange: [fly.from.x + fly.from.w / 2 - (fly.to.x + fly.to.w / 2), 0] }) },
-              { translateY: v.pos.interpolate({ inputRange: [0, 1], outputRange: [fly.from.y + fly.from.h / 2 - (fly.to.y + fly.to.h / 2), 0] }) },
-              { scale: v.pos.interpolate({ inputRange: [0, 1], outputRange: [fly.from.w / fly.to.w, 1] }) },
-            ],
-          }}
-        />
+          style={{ position: 'absolute', left: hero.x, top: hero.y, width: hero.w, height: hero.h, opacity: v.copy.opacity, transform: [{ translateX: v.copy.x }, { translateY: v.copy.y }] }}
+        >
+          <Animated.Image source={PHOTOS[PRODUCTS[open.id].photo]} resizeMode="cover" style={{ width: hero.w, height: hero.h, transform: [{ scale: v.copy.scale }] }} />
+        </Animated.View>
       )}
     </>
   )
 }
+
+const s = StyleSheet.create({ kick: { position: 'absolute', top: 0, width: 1, height: 1, opacity: 0 } })
 
 export default function App() {
   return (

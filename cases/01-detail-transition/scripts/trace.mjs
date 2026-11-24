@@ -33,7 +33,7 @@ function parse(text, pid, tids) {
   const frames = []
   const inputs = []
   const open = []
-  for (const line of text.split('\n')) {
+  for (const line of text.split(/\r?\n/)) {
     const m = line.match(LINE)
     if (!m) continue
     const [, , tidS, tsS, ev, body] = m
@@ -52,7 +52,8 @@ function parse(text, pid, tids) {
       else if (/^E\|?/.test(body) && open.length) {
         const s = open.pop()
         if (s.name.startsWith('Choreographer#doFrame') && !open.some((o) => o.name.startsWith('Choreographer#doFrame'))) frames.push([s.ts, ts])
-        if (/^deliverInputEvent/.test(s.name)) inputs.push(s.ts)
+        // the tap is its release: that is when the app acts (onPress)
+        if (/^dispatchInputEvent MotionEvent.*UP/.test(s.name)) inputs.push(s.ts)
       }
     }
   }
@@ -65,11 +66,12 @@ async function once(variant) {
   const card = centreOf('card-0')
   sh(`input tap ${card.x} ${card.y}`)
   await sleep(1800)
-  sh('input keyevent 4')
+  const backButton = centreOf('목록으로')
+  sh(`input tap ${backButton.x} ${backButton.y}`)
   await sleep(1400)
   const pid = Number(sh(`pidof ${PKG}`).trim())
   const threads = sh(`ps -T -p ${pid} -o TID,CMD`)
-    .split('\n')
+    .split(/\r?\n/)
     .slice(1)
     .map((l) => l.trim().split(/\s+/))
   const tid = (re) => Number(threads.find(([, name]) => re.test(name ?? ''))?.[0])
@@ -78,7 +80,7 @@ async function once(variant) {
   await sleep(1500)
   sh(`input tap ${card.x} ${card.y}`)
   const text = await tracing
-  sh('input keyevent 4')
+  sh(`input tap ${backButton.x} ${backButton.y}`)
   await sleep(800)
   const { run, frames, inputs } = parse(text, pid, tids)
   const tap = inputs.find((t) => frames.some(([s]) => s >= t)) ?? inputs[0]
