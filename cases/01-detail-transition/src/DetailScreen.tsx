@@ -1,0 +1,120 @@
+import { useEffect, useRef, useState, type ComponentRef, type RefObject } from 'react'
+import { Animated, Image, Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { PRODUCTS, REVIEW_ROWS, reviews, won, type Review } from './data'
+import { BAR, C, EDGE, RATIO } from './layout'
+import { PHOTOS } from './photos'
+import { FlatRow, ReviewRow } from './Rows'
+import { report } from './timing'
+import type { Variant } from './variant'
+
+// The detail screen. Its head (the hero picture, name, price) is light; its review list is the heavy part: 150 rows
+// with pictures and shadows, all mounted at once in a plain ScrollView. The reviews "arrive" on the next tick, as
+// cached data would, so in A they mount while the transition is still running.
+//
+//   A  mounts the reviews as soon as they arrive (during the transition)
+//   B  shows a light placeholder during the transition and mounts the reviews once it has ended (`settled`)
+//   C  as A, with the rows drawn flat (FlatRow: no shadow, round corners or pictures; memo)
+//   D  as A, with the transition turned off (App.tsx)
+//   E  as B, then mounts the rows CHUNK per frame instead of all in one frame
+
+type Props = {
+  id: number
+  t0: number
+  variant: Variant
+  settled: boolean
+  onBack: () => void
+  /** the hero hides while the flying copy of the picture (App.tsx) is on its way */
+  heroHidden: boolean
+  heroRef: RefObject<ComponentRef<typeof View> | null>
+  /** the text under the hero rises and fades in with the transition (App.tsx, DESIGN.md 4.2) */
+  text: { opacity: Animated.AnimatedInterpolation<number> | Animated.Value; translateY: Animated.AnimatedInterpolation<number> | number }
+}
+
+/** E: rows mounted per frame */
+const CHUNK = 5
+
+export function DetailScreen({ id, t0, variant, settled, onBack, heroHidden, heroRef, text }: Props) {
+  const p = PRODUCTS[id]
+  const insets = useSafeAreaInsets()
+  const { width } = useWindowDimensions()
+  const [data, setData] = useState<Review[] | null>(null)
+  const laidOut = useRef(false)
+
+  useEffect(() => {
+    const t = setTimeout(() => setData(reviews(id)), 0)
+    return () => clearTimeout(t)
+  }, [id])
+
+  const waits = variant === 'b' || variant === 'e'
+  const heavy = data !== null && (!waits || settled)
+  const Row = variant === 'c' ? FlatRow : ReviewRow
+
+  const [shown, setShown] = useState(variant === 'e' ? 0 : REVIEW_ROWS)
+  useEffect(() => {
+    if (!heavy || shown >= REVIEW_ROWS) return
+    const f = requestAnimationFrame(() => setShown((n) => Math.min(REVIEW_ROWS, n + CHUNK)))
+    return () => cancelAnimationFrame(f)
+  }, [heavy, shown])
+
+  const onLayout = () => {
+    if (laidOut.current || shown < REVIEW_ROWS) return
+    laidOut.current = true
+    report(variant, 'content', performance.now() - t0)
+  }
+
+  return (
+    <View style={[s.screen, { paddingTop: insets.top }]}>
+      <View style={s.bar}>
+        <Pressable accessibilityRole="button" accessibilityLabel="목록으로" onPress={onBack} style={s.back}>
+          <View style={s.chevron} />
+        </Pressable>
+        <Text style={s.barTitle}>상품 상세</Text>
+      </View>
+      <ScrollView contentContainerStyle={{ paddingBottom: insets.bottom + EDGE }}>
+        <View ref={heroRef} collapsable={false} style={{ width, height: width * RATIO, backgroundColor: '#e9e6df' }}>
+          <Image source={PHOTOS[p.photo]} style={[s.fill, heroHidden && s.hidden]} resizeMode="cover" />
+        </View>
+        <Animated.View style={{ opacity: text.opacity, transform: [{ translateY: text.translateY }] }}>
+        <View style={s.info}>
+          <Text style={s.brand}>{p.brand}</Text>
+          <Text style={s.title}>{p.title}</Text>
+          <Text style={s.price}>{won(p.price)}</Text>
+          <Text style={s.meta}>무료배송 · 오늘 출발</Text>
+        </View>
+        <Text style={s.section}>리뷰 {REVIEW_ROWS}개</Text>
+        {heavy ? (
+          <View onLayout={onLayout} accessibilityLabel="reviews">
+            {data!.slice(0, shown).map((r) => (
+              <Row key={r.id} r={r} />
+            ))}
+          </View>
+        ) : (
+          <View accessibilityLabel="reviews-placeholder">
+            {[0, 1, 2].map((i) => (
+              <View key={i} style={s.skeleton} />
+            ))}
+          </View>
+        )}
+        </Animated.View>
+      </ScrollView>
+    </View>
+  )
+}
+
+const s = StyleSheet.create({
+  screen: { flex: 1, backgroundColor: C.bg },
+  bar: { height: BAR, flexDirection: 'row', alignItems: 'center', paddingHorizontal: EDGE - 12 },
+  barTitle: { marginLeft: 4, fontSize: 17, lineHeight: 22, fontWeight: '600', color: C.text },
+  back: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center' },
+  chevron: { width: 12, height: 12, marginLeft: 4, borderLeftWidth: 2, borderBottomWidth: 2, borderColor: C.text, transform: [{ rotate: '45deg' }] },
+  fill: { width: '100%', height: '100%' },
+  hidden: { opacity: 0 },
+  info: { paddingHorizontal: EDGE, paddingTop: 20, paddingBottom: 8 },
+  brand: { fontSize: 13, lineHeight: 18, fontWeight: '600', color: C.muted },
+  title: { marginTop: 4, fontSize: 22, lineHeight: 28, color: C.text },
+  price: { marginTop: 8, fontSize: 20, lineHeight: 26, fontWeight: '700', color: C.text },
+  meta: { marginTop: 6, fontSize: 13, lineHeight: 18, color: C.muted },
+  section: { paddingHorizontal: EDGE, marginTop: 24, marginBottom: 12, fontSize: 17, lineHeight: 22, fontWeight: '700', color: C.text },
+  skeleton: { height: 150, marginHorizontal: EDGE, marginBottom: 12, borderRadius: 14, backgroundColor: '#ebe8e1' },
+})
