@@ -9,12 +9,12 @@ import { report } from './timing'
 import type { Variant } from './variant'
 
 // The detail screen. Its head (the hero picture, name, price) is light; its review list is the heavy part: 150 rows
-// with pictures and shadows, all mounted at once in a plain ScrollView. The reviews "arrive" on the next tick, as
+// with pictures and round corners, all mounted at once in a plain ScrollView. The reviews "arrive" on the next tick, as
 // cached data would, so in A they mount while the transition is still running.
 //
 //   A  mounts the reviews as soon as they arrive (during the transition)
 //   B  shows a light placeholder during the transition and mounts the reviews once it has ended (`settled`)
-//   C  as A, with the rows drawn flat (FlatRow: no shadow, round corners or pictures; memo)
+//   C  as A, with the rows drawn flat (FlatRow: no line, round corners or pictures; memo)
 //   D  as A, with the transition turned off (App.tsx)
 //   E  as B, then mounts the rows CHUNK per frame instead of all in one frame
 
@@ -123,5 +123,5 @@ const s = StyleSheet.create({
   price: { marginTop: 8, fontSize: 20, lineHeight: 26, fontWeight: '700', color: C.text },
   meta: { marginTop: 6, fontSize: 13, lineHeight: 18, color: C.muted },
   section: { paddingHorizontal: EDGE, marginTop: 24, marginBottom: 12, fontSize: 17, lineHeight: 22, fontWeight: '700', color: C.text },
-  skeleton: { height: 150, marginHorizontal: EDGE, marginBottom: 12, borderRadius: 14, backgroundColor: '#ebe8e1' },
+  skeleton: { height: 150, marginHorizontal: EDGE, marginBottom: 12, borderRadius: 12, backgroundColor: '#ebe8e1' },
 })

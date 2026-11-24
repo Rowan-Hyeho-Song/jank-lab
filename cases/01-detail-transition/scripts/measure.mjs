@@ -110,7 +110,8 @@ const out = {
   conditions: {
     device: `${device.model}, Android ${device.android} (API ${device.sdk})`,
     build: 'release APK (Hermes, New Architecture), arm64-v8a',
-    transition: 'push, slide from the right, 340 ms (native driver)',
+    transition: 'list picture -> detail hero, 340 ms each way (native driver), DESIGN.md 4.2',
+    close: 'tap on the screen back button',
     reviewRows: 150,
     cyclesPerSet: CYCLES,
     setsPerVariant: SETS,

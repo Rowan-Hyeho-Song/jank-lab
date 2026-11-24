@@ -4,9 +4,10 @@ import type { Review } from './data'
 import { PHOTOS } from './photos'
 
 // One review row, in two drawings with the same views and the same layout:
-//  - ReviewRow: the real look, a card with an elevation shadow, round corners and two pictures
-//  - FlatRow (variant C): no shadow, no round corners, plain boxes where the pictures were, wrapped in memo.
-//    Fewer things to draw (GPU) and nothing to re-render; the number of native views is the same.
+//  - ReviewRow: the real look, a card with a 1 px line, round corners and two pictures (no shadow: an Android
+//    elevation shadow does not fade with its parent's opacity, so it stayed on screen while the detail faded out)
+//  - FlatRow (variant C): no line, no round corners, plain boxes where the pictures were, wrapped in memo.
+//    Less to draw (GPU) and nothing to re-render; the number of native views is the same.
 
 export function ReviewRow({ r }: { r: Review }) {
   return (
@@ -71,7 +72,7 @@ export const FlatRow = memo(function FlatRow({ r }: { r: Review }) {
 })
 
 const s = StyleSheet.create({
-  card: { marginHorizontal: 16, marginBottom: 12, padding: 14, borderRadius: 14, backgroundColor: '#ffffff', elevation: 4, shadowColor: '#000' },
+  card: { marginHorizontal: 16, marginBottom: 12, padding: 14, borderRadius: 12, borderWidth: 1, borderColor: '#e2dfd8', backgroundColor: '#ffffff' },
   top: { flexDirection: 'row', alignItems: 'center' },
   avatar: { width: 36, height: 36, borderRadius: 18 },
   who: { flex: 1, marginLeft: 10 },
@@ -89,7 +90,7 @@ const s = StyleSheet.create({
 })
 
 const f = StyleSheet.create({
-  card: { borderRadius: 0, elevation: 0 },
+  card: { borderRadius: 0, borderWidth: 0 },
   box: { borderRadius: 0, backgroundColor: '#dcd8cf' },
   flat: { borderRadius: 0 },
 })
