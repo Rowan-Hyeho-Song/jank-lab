@@ -17,13 +17,17 @@ import { getVariant, listenForVariantLinks, type Variant } from './src/variant'
 // the detail screen is open and at 2 while the list is). Every binding is made once, when the detail screen opens, so
 // closing is only "start the clock": no React render, no mount, no picture to decode before the first frame.
 //
+// The moving frame holds the picture twice, square-cornered below and round on top; fading the round one turns the
+// corner (borderRadius cannot run on the native driver), always in the same place.
+//
 //   opening (0 -> 1)                                 closing (1.001 -> 2)
-//   0-100    copy fades in over the card picture     0-220    detail text fades, sinks 16
-//   100      card picture hides                      140-340  detail background fades
-//   0-200    detail background fades in              0-340    copy shrinks back to the card
-//   120-340  detail text rises 16 -> 0, fades in     240-340  copy fades out over the card picture
-//   0-340    copy grows into the hero's place                 (the card picture shows the whole time)
-//   340      the real hero shows, the copy hides: the "transition end" that B and E wait for
+//   0        the card picture hides, the frame       0        the real hero hides, the frame shows in its place
+//            (looking just like it) takes its place  0-220    detail text fades, sinks 16
+//   0-150    round picture fades: corners 12 -> 0    140-340  detail background fades
+//   0-200    detail background fades in              0-340    the frame shrinks back to the card
+//   120-340  detail text rises 16 -> 0, fades in     190-340  round picture comes back: corners 0 -> 12
+//   0-340    the frame grows into the hero's place   340      the card picture shows, the frame hides
+//   340      the real hero shows, the frame hides: the "transition end" that B and E wait for
 //
 // The UI thread draws every frame, so whatever else holds the UI thread (creating and laying out native views) holds
 // the picture too. D has no transition. With reduce motion, or a hero scrolled out of sight, it is a 200 ms fade.
@@ -170,13 +174,19 @@ function Stack() {
     const pos = map([...T, ...T.map((t) => C0 + t * (2 - C0))], [...E, ...E.map((e) => 1 - e)])
     return {
       copy: {
-        opacity: map([0, open_(100), 0.999, 1, C0, close_(240), 2], [0, 1, 1, 0, 1, 1, 0]),
+        // the frame shows from the first frame of opening until it rests (hero shown), and for all of closing until
+        // the frame that matches the card exactly
+        opacity: map([0, 0.999, 1, C0, 1.9999, 2], [1, 1, 0, 1, 1, 0]),
+        // the round-cornered picture on top: 1 -> 0 in 0-150 ms of opening, 0 -> 1 in 190-340 ms of closing
+        round: map([0, open_(150), 1, C0, close_(190), 2], [1, 0, 0, 0, 0, 1]),
+        radius: (12 * hero.w) / from.w,
         x: pos.interpolate({ inputRange: [0, 1], outputRange: [from.x + from.w / 2 - (hero.x + hero.w / 2), 0] }),
         y: Animated.add(pos.interpolate({ inputRange: [0, 1], outputRange: [from.y + from.h / 2 - (hero.y + hero.h / 2), 0] }), shift),
         scale: pos.interpolate({ inputRange: [0, 1], outputRange: [from.w / hero.w, 1] }),
       },
       hero: map([0, 0.999, 1, C0, 2], [0, 0, 1, 0, 0]),
-      card: map([0, open_(100), open_(100) + 0.0001, 1, C0, 2], [1, 1, 0, 0, 1, 1]),
+      // the card picture hides on the first frame (the frame looks exactly like it) and shows again only when closing ends
+      card: map([0, 1, C0, 1.9999, 2], [0, 0, 0, 0, 1]),
       background: map([0, open_(200), 1, close_(140), 2], [0, 1, 1, 1, 0]),
       textOpacity: map([0, open_(120), 1, C0, close_(220), 2], [0, 0, 1, 1, 0, 0]),
       textY: map([0, open_(120), 1, C0, close_(220), 2], [16, 16, 0, 0, 16, 16]),
@@ -209,14 +219,29 @@ function Stack() {
           pointerEvents="none"
           style={{ position: 'absolute', left: hero.x, top: hero.y, width: hero.w, height: hero.h, opacity: v.copy.opacity, transform: [{ translateX: v.copy.x }, { translateY: v.copy.y }] }}
         >
-          <Animated.Image source={PHOTOS[PRODUCTS[open.id].photo]} resizeMode="cover" style={{ width: hero.w, height: hero.h, transform: [{ scale: v.copy.scale }] }} />
+          {/* two of the same picture: square-cornered below, round on top (12 at card size); the fade between them
+              turns the corner, inside the moving frame, so the two never part */}
+          {/* each picture scales itself (a scaling wrapper view scaled from its corner on Android) */}
+          <Animated.Image
+            source={PHOTOS[PRODUCTS[open.id].photo]}
+            resizeMode="cover"
+            style={[s.layer, { width: hero.w, height: hero.h, transform: [{ scale: v.copy.scale }] }]}
+          />
+          <Animated.Image
+            source={PHOTOS[PRODUCTS[open.id].photo]}
+            resizeMode="cover"
+            style={[s.layer, { width: hero.w, height: hero.h, borderRadius: v.copy.radius, opacity: v.copy.round, transform: [{ scale: v.copy.scale }] }]}
+          />
         </Animated.View>
       )}
     </>
   )
 }
 
-const s = StyleSheet.create({ kick: { position: 'absolute', top: 0, width: 1, height: 1, opacity: 0 } })
+const s = StyleSheet.create({
+  kick: { position: 'absolute', top: 0, width: 1, height: 1, opacity: 0 },
+  layer: { position: 'absolute', top: 0, left: 0 },
+})
 
 export default function App() {
   return (
