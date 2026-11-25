@@ -4,8 +4,10 @@ export const EDGE = 16
 export const GAP = 12
 /** height / width of every product picture (4:5), in the list and as the detail screen's hero */
 export const RATIO = 5 / 4
-/** the detail screen's top bar (the back button), under the status bar */
+/** the top bar (title; on the detail screen the back button), under the status bar; both screens (DESIGN.md 4.4) */
 export const BAR = 52
+/** the meter under it (DESIGN.md 4.4): two 28 rows + 2 above and below; fixed on top of everything */
+export const METER = 60
 
 export const C = {
   bg: '#f6f5f2',

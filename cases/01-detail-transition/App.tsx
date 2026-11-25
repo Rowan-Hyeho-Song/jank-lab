@@ -3,10 +3,11 @@ import { AccessibilityInfo, Animated, BackHandler, Easing, StatusBar, StyleSheet
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { PRODUCTS } from './src/data'
 import { DetailScreen } from './src/DetailScreen'
-import { BAR, C, RATIO, type Rect } from './src/layout'
+import { BAR, C, METER, RATIO, type Rect } from './src/layout'
 import { ListScreen } from './src/ListScreen'
 import { PHOTOS } from './src/photos'
-import { report } from './src/timing'
+import { report, startOpening } from './src/timing'
+import { Top } from './src/Top'
 import { getVariant, listenForVariantLinks, type Variant } from './src/variant'
 
 // The list <-> detail transition (DESIGN.md 4.2), 340 ms each way: the tapped card's picture grows from its place in
@@ -70,7 +71,8 @@ function Stack() {
     return () => sub.remove()
   }, [])
 
-  const hero: Rect = { x: 0, y: insets.top + BAR, w: width, h: width * RATIO }
+  // the hero starts under the fixed bar and meter (DESIGN.md 4.4)
+  const hero: Rect = { x: 0, y: insets.top + BAR + METER, w: width, h: width * RATIO }
 
   const onOpen = useCallback(
     (id: number, t0: number, from: Rect) => {
@@ -83,6 +85,7 @@ function Stack() {
       setSettled(false)
       setOpen({ id, t0, variant: getVariant(), from })
       setLastId(id)
+      startOpening()
     },
     [reduce, M, shift],
   )
@@ -205,7 +208,6 @@ function Stack() {
             t0={open.t0}
             variant={open.variant}
             settled={settled}
-            onBack={onBack}
             heroOpacity={v.hero}
             onScrollY={(y) => (scrollY.current = y)}
             text={{ opacity: v.textOpacity, translateY: v.textY }}
@@ -234,6 +236,8 @@ function Stack() {
           />
         </Animated.View>
       )}
+      {/* the bar and the meter, above everything, never moving (Top.tsx) */}
+      <Top detail={open !== null} onBack={onBack} reduce={reduce} />
     </>
   )
 }

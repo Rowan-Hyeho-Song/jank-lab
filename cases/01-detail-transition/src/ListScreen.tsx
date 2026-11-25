@@ -2,9 +2,8 @@ import { memo, useRef, type ComponentRef } from 'react'
 import { Animated, FlatList, Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { PRODUCTS, won, type Product } from './data'
-import { C, EDGE, GAP, RATIO, type Rect } from './layout'
+import { BAR, C, EDGE, GAP, METER, RATIO, type Rect } from './layout'
 import { PHOTOS } from './photos'
-import { useLast } from './timing'
 import { VARIANTS, letter, setVariant, useVariant } from './variant'
 
 type Props = {
@@ -38,17 +37,12 @@ const Card = memo(function Card({ p, index, width, opacity, onOpen }: { p: Produ
   )
 })
 
-export function ListScreen({ onOpen, hiddenId, hiddenOpacity }: Props) {
-  const insets = useSafeAreaInsets()
-  const { width } = useWindowDimensions()
+/** the list's own head, the first thing that scrolls (the title is in the fixed bar, the times in the meter: Top.tsx) */
+function Head() {
   const variant = useVariant()
-  const last = useLast()
   const current = VARIANTS.find((v) => v.id === variant)!
-  const cardW = (width - EDGE * 2 - GAP) / 2
   return (
-    <View style={[s.screen, { paddingTop: insets.top }]}>
-      <View style={s.head}>
-        <Text style={s.h1}>상세 화면 전환</Text>
+    <View style={s.head}>
         <Text style={s.sub}>jank-lab 사례 1 · 전환이 UI 스레드에 막히는 문제</Text>
         {/* DESIGN.md 5: one segmented control (letters only), its name and note on the line under it */}
         <View style={s.seg} accessibilityRole="radiogroup">
@@ -77,22 +71,24 @@ export function ListScreen({ onOpen, hiddenId, hiddenOpacity }: Props) {
           {current.warn && <Text style={s.warnText}>의도한 끊김 — </Text>}
           {current.note}
         </Text>
-        <Text style={s.readout}>
-          {last.transition === undefined && last.content === undefined ? (
-            '상품을 누르면 전환과 리뷰 표시까지 걸린 시간을 여기 적습니다.'
-          ) : (
-            <>
-              전환 끝 <Text style={s.value}>{last.transition?.toFixed(0) ?? '-'}</Text> ms · 리뷰 표시 <Text style={s.value}>{last.content?.toFixed(0) ?? '-'}</Text> ms
-            </>
-          )}
-        </Text>
-      </View>
+    </View>
+  )
+}
+
+export function ListScreen({ onOpen, hiddenId, hiddenOpacity }: Props) {
+  const insets = useSafeAreaInsets()
+  const { width } = useWindowDimensions()
+  const cardW = (width - EDGE * 2 - GAP) / 2
+  return (
+    <View style={s.screen}>
       <FlatList
         data={PRODUCTS}
         numColumns={2}
         extraData={hiddenId}
         keyExtractor={(p) => String(p.id)}
-        contentContainerStyle={{ paddingHorizontal: EDGE, paddingTop: EDGE, paddingBottom: insets.bottom + EDGE, gap: 24 }}
+        ListHeaderComponent={Head}
+        // the content starts under the fixed bar and meter, and scrolls under them
+        contentContainerStyle={{ paddingHorizontal: EDGE, paddingTop: insets.top + BAR + METER, paddingBottom: insets.bottom + EDGE, gap: 24 }}
         columnWrapperStyle={{ gap: GAP }}
         renderItem={({ item, index }) => <Card p={item} index={index} width={cardW} opacity={hiddenId === item.id ? hiddenOpacity : 1} onOpen={onOpen} />}
       />
@@ -102,9 +98,8 @@ export function ListScreen({ onOpen, hiddenId, hiddenOpacity }: Props) {
 
 const s = StyleSheet.create({
   screen: { flex: 1, backgroundColor: C.bg },
-  head: { paddingHorizontal: EDGE, paddingTop: 12, paddingBottom: 12, borderBottomWidth: StyleSheet.hairlineWidth, borderColor: C.line },
-  h1: { fontSize: 22, lineHeight: 28, fontWeight: '700', color: C.text },
-  sub: { marginTop: 2, fontSize: 13, lineHeight: 18, color: C.muted },
+  head: { paddingTop: 16, paddingBottom: 4 },
+  sub: { fontSize: 13, lineHeight: 18, color: C.muted },
   // the segmented control: 44 high with its border, equal cells, 1 px dividers, the chosen cell filled 3 px inside
   seg: { marginTop: 12, height: 44, flexDirection: 'row', borderWidth: 1, borderColor: C.line, borderRadius: 10, backgroundColor: C.surface, overflow: 'hidden' },
   cell: { flex: 1, minWidth: 44, alignItems: 'center', justifyContent: 'center' },
@@ -120,8 +115,6 @@ const s = StyleSheet.create({
   note: { marginTop: 8, minHeight: 36, fontSize: 13, lineHeight: 18, color: C.muted },
   noteLetter: { fontWeight: '600', color: C.text },
   noteName: { fontWeight: '600', color: C.text },
-  readout: { marginTop: 4, fontSize: 13, lineHeight: 18, color: C.muted },
-  value: { color: C.text, fontVariant: ['tabular-nums'] },
   photoBox: { borderRadius: 12, overflow: 'hidden', backgroundColor: '#e9e6df' },
   photo: { width: '100%', height: '100%' },
   brand: { marginTop: 10, fontSize: 12, lineHeight: 16, fontWeight: '600', color: C.muted },

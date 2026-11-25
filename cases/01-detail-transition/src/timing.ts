@@ -2,11 +2,12 @@ import { useSyncExternalStore } from 'react'
 
 // Two times per opening, from the tap: when the push transition ended, and when the review list was laid out.
 // Each goes to logcat (release builds still forward console.log to the ReactNativeJS tag) as one parseable line,
-// "J1|<variant>|<what>|<ms>", which the measuring script reads, and to the list screen's readout.
+// "J1|<variant>|<what>|<ms>", which the measuring script reads, and to the meter's second row (Meter.tsx).
 
 export type What = 'transition' | 'content'
 
-let last: Partial<Record<What, number>> = {}
+/** `tapped`: an opening has started (the meter shows its steps); the two times arrive as they happen */
+let last: Partial<Record<What, number>> & { tapped?: true } = {}
 const subs = new Set<() => void>()
 
 export function report(variant: string, what: What, ms: number) {
@@ -15,8 +16,9 @@ export function report(variant: string, what: What, ms: number) {
   subs.forEach((f) => f())
 }
 
-export const resetLast = () => {
-  last = {}
+/** a new opening: clear the last one's times */
+export const startOpening = () => {
+  last = { tapped: true }
   subs.forEach((f) => f())
 }
 

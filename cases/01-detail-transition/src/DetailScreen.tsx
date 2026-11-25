@@ -1,8 +1,8 @@
 import { memo, useCallback, useEffect, useRef, useState, type ComponentType } from 'react'
-import { Animated, Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native'
+import { Animated, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { PRODUCTS, REVIEW_ROWS, reviews, won, type Review } from './data'
-import { BAR, C, EDGE, RATIO } from './layout'
+import { BAR, C, EDGE, METER, RATIO } from './layout'
 import { PHOTOS } from './photos'
 import { FlatRow, ReviewRow } from './Rows'
 import { report } from './timing'
@@ -23,7 +23,6 @@ type Props = {
   t0: number
   variant: Variant
   settled: boolean
-  onBack: () => void
   /** the hero hides while the flying copy of the picture (App.tsx) stands in for it, on the native driver */
   heroOpacity: Animated.AnimatedInterpolation<number>
   /** how far the screen is scrolled, so closing can start the copy where the hero is */
@@ -35,7 +34,7 @@ type Props = {
 /** E: rows mounted per frame */
 const CHUNK = 5
 
-export function DetailScreen({ id, t0, variant, settled, onBack, heroOpacity, onScrollY, text }: Props) {
+export function DetailScreen({ id, t0, variant, settled, heroOpacity, onScrollY, text }: Props) {
   const p = PRODUCTS[id]
   const insets = useSafeAreaInsets()
   const { width } = useWindowDimensions()
@@ -65,14 +64,13 @@ export function DetailScreen({ id, t0, variant, settled, onBack, heroOpacity, on
   }, [shown, variant, t0])
 
   return (
-    <View style={[s.screen, { paddingTop: insets.top }]}>
-      <View style={s.bar}>
-        <Pressable accessibilityRole="button" accessibilityLabel="목록으로" onPress={onBack} style={s.back}>
-          <View style={s.chevron} />
-        </Pressable>
-        <Text style={s.barTitle}>상품 상세</Text>
-      </View>
-      <ScrollView contentContainerStyle={{ paddingBottom: insets.bottom + EDGE }} scrollEventThrottle={32} onScroll={(e) => onScrollY(e.nativeEvent.contentOffset.y)}>
+    <View style={s.screen}>
+      {/* the bar with the way back and the meter are fixed above (Top.tsx); the hero starts right under them */}
+      <ScrollView
+        contentContainerStyle={{ paddingTop: insets.top + BAR + METER, paddingBottom: insets.bottom + EDGE }}
+        scrollEventThrottle={32}
+        onScroll={(e) => onScrollY(e.nativeEvent.contentOffset.y)}
+      >
         <View style={{ width, height: width * RATIO, backgroundColor: '#e9e6df' }}>
           <Animated.Image source={PHOTOS[p.photo]} style={[s.fill, { opacity: heroOpacity }]} resizeMode="cover" />
         </View>
@@ -112,10 +110,6 @@ const Reviews = memo(function Reviews({ data, shown, Row, onLayout }: { data: Re
 
 const s = StyleSheet.create({
   screen: { flex: 1, backgroundColor: C.bg },
-  bar: { height: BAR, flexDirection: 'row', alignItems: 'center', paddingHorizontal: EDGE - 12 },
-  barTitle: { marginLeft: 4, fontSize: 17, lineHeight: 22, fontWeight: '600', color: C.text },
-  back: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center' },
-  chevron: { width: 12, height: 12, marginLeft: 4, borderLeftWidth: 2, borderBottomWidth: 2, borderColor: C.text, transform: [{ rotate: '45deg' }] },
   fill: { width: '100%', height: '100%' },
   info: { paddingHorizontal: EDGE, paddingTop: 20, paddingBottom: 8 },
   brand: { fontSize: 13, lineHeight: 18, fontWeight: '600', color: C.muted },

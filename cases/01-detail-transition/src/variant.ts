@@ -37,9 +37,27 @@ export const useVariant = () =>
     () => current,
   )
 
+// The meter's wave (DESIGN.md 4.4) is on unless a link says `?meter=off`: the measuring scripts do, because a wave
+// that keeps drawing frames would change gfxinfo's count of frames.
+let meterOn = true
+const meterSubs = new Set<() => void>()
+export const useMeterOn = () =>
+  useSyncExternalStore(
+    (f) => {
+      meterSubs.add(f)
+      return () => void meterSubs.delete(f)
+    },
+    () => meterOn,
+  )
+
 function fromUrl(url: string | null | undefined) {
   const m = url?.match(/variant\/([abcde])/)
   if (m) setVariant(m[1] as Variant)
+  const meter = url?.match(/[?&]meter=(on|off)/)?.[1]
+  if (meter && (meter === 'on') !== meterOn) {
+    meterOn = meter === 'on'
+    meterSubs.forEach((f) => f())
+  }
 }
 
 export function listenForVariantLinks() {

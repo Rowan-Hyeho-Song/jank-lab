@@ -52,7 +52,8 @@ export function deviceInfo() {
 export async function launch(variant) {
   sh(`am force-stop ${PKG}`)
   await sleep(400)
-  sh(`am start -W -a android.intent.action.VIEW -d jankcase1://variant/${variant} ${PKG}`)
+  // meter=off: the meter's wave (DESIGN.md 4.4) would keep drawing frames and change gfxinfo's count; the layout is the same
+  sh(`am start -W -a android.intent.action.VIEW -d 'jankcase1://variant/${variant}?meter=off' ${PKG}`)
   await sleep(2500)
 }
 

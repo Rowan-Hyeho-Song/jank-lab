@@ -112,6 +112,7 @@ const out = {
     build: 'release APK (Hermes, New Architecture), arm64-v8a',
     transition: 'list picture -> detail hero, 340 ms each way (native driver), DESIGN.md 4.2',
     close: 'tap on the screen back button',
+    meter: 'off',
     reviewRows: 150,
     cyclesPerSet: CYCLES,
     setsPerVariant: SETS,
