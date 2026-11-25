@@ -58,7 +58,8 @@ function Meter({ reduce }: { reduce: boolean }) {
   const v = VARIANTS.find((x) => x.id === variant)!
   const last = useLast()
   const label = 'UI 스레드' + (!meterOn ? ' · 꺼짐(측정 중)' : reduce ? ' · 움직임 줄이기로 멈춤' : '')
-  const ms = (x: number | undefined) => (x === undefined ? '—' : `${Math.round(x)} ms`)
+  // a step still to come reads as a faint ··· (a dash would look like the lines between the steps)
+  const ms = (x: number | undefined) => (x === undefined ? <Text style={s.pending}>···</Text> : `${Math.round(x)} ms`)
   const spoken = last.tapped ? `전환 끝 ${last.transition === undefined ? '대기' : `${Math.round(last.transition)} 밀리초`}, 리뷰 표시 ${last.content === undefined ? '대기' : `${Math.round(last.content)} 밀리초`}` : undefined
   return (
     <View style={s.meter}>
@@ -134,5 +135,6 @@ const s = StyleSheet.create({
   step: { fontSize: 12, lineHeight: 16, color: C.muted },
   stepOn: { fontWeight: '600', color: C.text },
   num: { minWidth: 52, fontSize: 13, lineHeight: 16, fontWeight: '600', color: C.text, fontVariant: ['tabular-nums'] },
+  pending: { color: C.faint, fontWeight: '400' },
   link: { width: 12, height: 1, marginHorizontal: 6, backgroundColor: C.line },
 })

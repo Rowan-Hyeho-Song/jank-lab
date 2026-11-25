@@ -15,6 +15,8 @@ export const C = {
   text: '#1d1d1f',
   text2: '#4a4842',
   muted: '#6b6962',
+  /** placeholders only (a step still to come), never words */
+  faint: '#a8a49b',
   line: '#dedad2',
   accent: '#1d1d1f',
   /** DESIGN.md 5: the amber that marks A, the slow one on purpose */

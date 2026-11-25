@@ -100,7 +100,9 @@ function Stack() {
     const done = () => {
       report(open.variant, 'transition', performance.now() - open.t0)
       phase.current = 'open'
-      setSettled(true)
+      // the meter's "전환 끝" number commits and paints first; B and E mount their reviews from the next frame, so the
+      // number is not held back by that long mount (DESIGN.md 4.4: each step's number arrives on its own frame)
+      requestAnimationFrame(() => setSettled(true))
     }
     if (open.variant === 'd') {
       M.setValue(1)
