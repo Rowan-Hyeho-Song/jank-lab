@@ -13,12 +13,13 @@
 
 import { mkdirSync, writeFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
-import { APK, PKG, adb, centreOf, deviceInfo, launch, requireAwakeAndUnlocked, requireDevice, sh, sleep } from './adb.mjs'
+import { APK, PKG, adb, centreOf, deviceInfo, launch, requireAwakeAndUnlocked, requireDevice, sh, sleep, tapInApp } from './adb.mjs'
 import { parseGfxinfo, sum, summarize } from './gfxinfo.mjs'
 
 const SETS = Number(process.env.SETS ?? 3)
 const CYCLES = Number(process.env.CYCLES ?? 30)
-const OPEN_WAIT = Number(process.env.OPEN_WAIT ?? 1800)
+// long enough for every variant's reviews to be fully on screen before closing (E's chunked mount takes about 2.4 s)
+const OPEN_WAIT = Number(process.env.OPEN_WAIT ?? 3200)
 const CLOSE_WAIT = Number(process.env.CLOSE_WAIT ?? 1400)
 const VARIANTS = (process.env.VARIANTS ?? 'a,b,c,d,e').split(',')
 const KEEP = process.argv.includes('--keep')
@@ -35,13 +36,13 @@ async function oneSet(variant) {
   requireAwakeAndUnlocked()
   await launch(variant)
   const card = centreOf('card-0')
-  const tap = () => sh(`input tap ${card.x} ${card.y}`)
+  const tap = () => tapInApp(card.x, card.y)
   // closing is a tap on the screen's back button, as a person would: a key event does not raise the display's
   // refresh rate the way a touch does, and the phone's idle low refresh then delays the first frame of the closing
   tap()
   await sleep(OPEN_WAIT)
   const backButton = centreOf('목록으로')
-  const back = () => sh(`input tap ${backButton.x} ${backButton.y}`)
+  const back = () => tapInApp(backButton.x, backButton.y)
   back()
   await sleep(CLOSE_WAIT)
   tap()

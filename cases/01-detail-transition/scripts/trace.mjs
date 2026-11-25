@@ -9,7 +9,7 @@
 
 import { spawn } from 'node:child_process'
 import { mkdirSync, writeFileSync } from 'node:fs'
-import { ADB, PKG, SERIAL_ARGS, centreOf, launch, requireAwakeAndUnlocked, requireDevice, sh, sleep } from './adb.mjs'
+import { ADB, PKG, SERIAL_ARGS, centreOf, launch, requireAwakeAndUnlocked, requireDevice, sh, sleep, tapInApp } from './adb.mjs'
 
 const VARIANTS = (process.env.VARIANTS ?? 'a,b').split(',')
 const WINDOW = [-60, 1000]
@@ -64,10 +64,10 @@ async function once(variant) {
   requireAwakeAndUnlocked()
   await launch(variant)
   const card = centreOf('card-0')
-  sh(`input tap ${card.x} ${card.y}`)
+  tapInApp(card.x, card.y)
   await sleep(1800)
   const backButton = centreOf('목록으로')
-  sh(`input tap ${backButton.x} ${backButton.y}`)
+  tapInApp(backButton.x, backButton.y)
   await sleep(1400)
   const pid = Number(sh(`pidof ${PKG}`).trim())
   const threads = sh(`ps -T -p ${pid} -o TID,CMD`)
@@ -78,9 +78,9 @@ async function once(variant) {
   const tids = { ui: pid, render: tid(/^RenderThread$/), js: tid(/^mqt_v_js$|^mqt_js$/) }
   const tracing = atrace(4)
   await sleep(1500)
-  sh(`input tap ${card.x} ${card.y}`)
+  tapInApp(card.x, card.y)
   const text = await tracing
-  sh(`input tap ${backButton.x} ${backButton.y}`)
+  tapInApp(backButton.x, backButton.y)
   await sleep(800)
   const { run, frames, inputs } = parse(text, pid, tids)
   const tap = inputs.find((t) => frames.some(([s]) => s >= t)) ?? inputs[0]

@@ -48,6 +48,26 @@ export function deviceInfo() {
   }
 }
 
+/** the activity in front, as "package/.Activity" (dumpsys activity: topResumedActivity), or '' */
+export function frontActivity() {
+  const line = sh('dumpsys activity activities | grep -m1 topResumedActivity; true')
+  return line.match(/ActivityRecord\{\S+ \S+ ([\w.]+\/[\w.$]+)/)?.[1] ?? ''
+}
+
+/**
+ * A tap, only while this app is in front. Another app's popup can come up during a long run, and a blind tap would
+ * press it; so before every tap the front activity is checked, and anything else stops the run there (no tap).
+ */
+export function tapInApp(x, y) {
+  const front = frontActivity()
+  if (!front.startsWith(`${PKG}/`)) {
+    const e = new Error(`stopped before a tap at ${x},${y}: the activity in front is "${front || 'unknown'}", not ${PKG}. Nothing was tapped.`)
+    e.code = 'NOT_IN_FRONT'
+    throw e
+  }
+  sh(`input tap ${x} ${y}`)
+}
+
 /** open the app on a variant from scratch: stop it, then start it through its deep link */
 export async function launch(variant) {
   sh(`am force-stop ${PKG}`)
@@ -58,13 +78,18 @@ export async function launch(variant) {
 }
 
 /** centre of the view with this accessibility label (content-desc), from a UI dump */
+// a dump needs the screen idle; right after a cold start (first one after install) it can fail, so it tries again
 export function centreOf(label) {
   const tmp = '/data/local/tmp/jank-lab-ui.xml'
-  sh(`uiautomator dump ${tmp} >/dev/null 2>&1`)
-  const xml = sh(`cat ${tmp}`)
-  sh(`rm -f ${tmp}`)
-  const node = xml.match(new RegExp(`content-desc="${label}"[^>]*bounds="\\[(\\d+),(\\d+)\\]\\[(\\d+),(\\d+)\\]"`))
-  if (!node) throw new Error(`no view labelled ${label} on screen`)
-  const [x1, y1, x2, y2] = node.slice(1).map(Number)
-  return { x: Math.round((x1 + x2) / 2), y: Math.round((y1 + y2) / 2) }
+  for (let attempt = 1; ; attempt++) {
+    sh(`uiautomator dump ${tmp} >/dev/null 2>&1; true`)
+    const xml = sh(`cat ${tmp} 2>/dev/null; rm -f ${tmp}`)
+    const node = xml.match(new RegExp(`content-desc="${label}"[^>]*bounds="\\[(\\d+),(\\d+)\\]\\[(\\d+),(\\d+)\\]"`))
+    if (node) {
+      const [x1, y1, x2, y2] = node.slice(1).map(Number)
+      return { x: Math.round((x1 + x2) / 2), y: Math.round((y1 + y2) / 2) }
+    }
+    if (attempt >= 5) throw new Error(`no view labelled ${label} on screen (UI dump, ${attempt} tries)`)
+    execFileSync(process.execPath, ['-e', 'setTimeout(() => {}, 1000)'])
+  }
 }
