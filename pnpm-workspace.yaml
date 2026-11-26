@@ -1,2 +1,2 @@
 packages:
-  - cases/*
+  - cases/02-infinite-scroll

@@ -9,6 +9,7 @@
     "measure": "pnpm --filter ./cases/02-infinite-scroll measure",
     "chart": "pnpm --filter ./cases/02-infinite-scroll chart",
     "typecheck": "pnpm -r typecheck",
-    "measure:long": "pnpm --filter ./cases/02-infinite-scroll measure:long"
+    "measure:long": "pnpm --filter ./cases/02-infinite-scroll measure:long",
+    "measure:case1": "npm --prefix cases/01-detail-transition run measure"
   }
 }
