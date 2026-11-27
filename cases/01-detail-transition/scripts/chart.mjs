@@ -3,6 +3,8 @@
 //                                          tap -> transition end (with the 340 ms design line); four small panels
 //   docs/case1-trace-{light,dark}.svg      one traced opening of A and of B: when the UI thread, RenderThread and the
 //                                          JS thread ran, ms from the tap (results/case1-trace.json, when it exists)
+//   docs/case1-{frames,trace}-{light,dark}-narrow.svg   the same at 360 wide for phones (site/case-1, <picture> media
+//                                          max-width 640px): panels one under another, the subtitle on its own lines
 // Static images: the README's tables carry every number, so the charts label only the bar tips.
 
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
@@ -25,8 +27,9 @@ const fmt = (n) => (n == null ? '-' : n.toLocaleString('en-US', { maximumFractio
 const variants = Object.keys(data.summary)
 const colour = (t, v) => t.series['abcde'.indexOf(v)]
 
-function frames(t) {
-  const W = 760, panelW = 352, rowH = 30, labelW = 126, top = 74
+function frames(t, narrow = false) {
+  const W = narrow ? 360 : 760, panelW = narrow ? 312 : 352, rowH = 30, labelW = narrow ? 112 : 126, top = narrow ? 92 : 74
+  const cols = narrow ? 1 : 2
   const panels = [
     { title: '밀린 프레임', unit: '%', get: (v) => data.summary[v].open.jankyPct },
     { title: '99번째 백분위 프레임', unit: 'ms', get: (v) => data.summary[v].open.p99 },
@@ -34,16 +37,18 @@ function frames(t) {
     { title: '탭 → 전환 끝', unit: 'ms', get: (v) => data.summary[v].transitionMs, ref: 340 },
   ]
   const panelH = 34 + variants.length * rowH + 10
-  const H = top + 2 * panelH + 16
+  const H = top + (4 / cols) * panelH + 16
   const c = data.conditions
   let s = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-labelledby="t d" ${FONT}>\n`
   s += `<title id="t">상세 화면 열기의 프레임</title>\n<desc id="d">${variants.map((v) => `${NAMES[v]}: 밀린 프레임 ${fmt(data.summary[v].open.jankyPct)}%, p99 ${fmt(data.summary[v].open.p99)} ms, 전환 끝 ${fmt(data.summary[v].transitionMs)} ms`).join('; ')}. 재현 측정값.</desc>\n`
   s += `<rect width="${W}" height="${H}" rx="12" fill="${t.surface}"/>\n`
   s += `<text x="24" y="30" font-size="16" font-weight="600" fill="${t.ink}">상세 화면을 여는 동안의 프레임</text>\n`
-  s += `<text x="24" y="50" font-size="12" fill="${t.ink2}">재현 측정값 · ${esc(c.device.split(' (')[0])} · 릴리스 빌드 · 열기 ${c.cyclesPerSet}회 × ${c.setsPerVariant}세트 중앙값 · 짧을수록 좋음</text>\n`
+  const sub = [`재현 측정값 · ${esc(c.device.split(' (')[0])} · 릴리스 빌드`, `열기 ${c.cyclesPerSet}회 × ${c.setsPerVariant}세트 중앙값 · 짧을수록 좋음`]
+  if (narrow) sub.forEach((line, i) => (s += `<text x="24" y="${50 + i * 18}" font-size="12" fill="${t.ink2}">${line}</text>\n`))
+  else s += `<text x="24" y="50" font-size="12" fill="${t.ink2}">${sub.join(' · ')}</text>\n`
   panels.forEach((p, i) => {
-    const ox = 24 + (i % 2) * (panelW + 8)
-    const oy = top + Math.floor(i / 2) * panelH
+    const ox = 24 + (i % cols) * (panelW + 8)
+    const oy = top + Math.floor(i / cols) * panelH
     const pw = panelW - labelW - 50
     const max = Math.max(p.ref ?? 0, ...variants.map(p.get).filter((x) => x != null))
     s += `<text x="${ox}" y="${oy + 14}" font-size="12" font-weight="600" fill="${t.ink2}">${esc(p.title)} (${p.unit})</text>\n`
@@ -66,8 +71,9 @@ function frames(t) {
   return s + '</svg>\n'
 }
 
-function timeline(t) {
-  const W = 760, L = 132, R = 24, top = 70, laneH = 18, laneGap = 8, groupGap = 30
+function timeline(t, narrow = false) {
+  const W = narrow ? 360 : 760, L = narrow ? 104 : 132, R = narrow ? 32 : 24, top = narrow ? 106 : 70, laneH = 18, laneGap = 8, groupGap = 30
+  const step = narrow ? 500 : 200
   const [x0, x1] = trace.window
   const X = (ms) => L + ((Math.min(Math.max(ms, x0), x1) - x0) / (x1 - x0)) * (W - L - R)
   const lanes = [
@@ -82,7 +88,9 @@ function timeline(t) {
   s += `<title id="t">탭부터 1초 동안 스레드가 일한 구간</title>\n<desc id="d">${groups.map((g) => `${NAMES[g]}: 탭 뒤 500 ms 동안 UI 스레드 ${trace.variants[g].busyFirst500ms.ui} ms, RenderThread ${trace.variants[g].busyFirst500ms.render} ms 실행`).join('; ')}.</desc>\n`
   s += `<rect width="${W}" height="${H}" rx="12" fill="${t.surface}"/>\n`
   s += `<text x="24" y="30" font-size="16" font-weight="600" fill="${t.ink}">탭부터 1초 동안, 스레드가 일한 구간</text>\n`
-  s += `<text x="24" y="50" font-size="12" fill="${t.ink2}">재현 트레이스(atrace, 한 번 열기) · 칠한 곳 = 스레드가 CPU에서 실행 중 · 회색 띠 = 설계한 전환 0–340 ms</text>\n`
+  const sub = ['재현 트레이스(atrace, 한 번 열기)', '칠한 곳 = 스레드가 CPU에서 실행 중', '회색 띠 = 설계한 전환 0–340 ms']
+  if (narrow) sub.forEach((line, i) => (s += `<text x="24" y="${50 + i * 18}" font-size="12" fill="${t.ink2}">${line}</text>\n`))
+  else s += `<text x="24" y="50" font-size="12" fill="${t.ink2}">${sub.join(' · ')}</text>\n`
   groups.forEach((g, gi) => {
     const oy = top + gi * (groupH + groupGap)
     const tr = trace.variants[g]
@@ -100,7 +108,7 @@ function timeline(t) {
     })
   })
   const ay = top + groups.length * (groupH + groupGap) - groupGap + 8
-  for (let ms = 0; ms <= x1; ms += 200) {
+  for (let ms = 0; ms <= x1; ms += step) {
     s += `<line x1="${X(ms)}" x2="${X(ms)}" y1="${ay - 4}" y2="${ay}" stroke="${t.axis}"/>\n`
     s += `<text x="${X(ms)}" y="${ay + 14}" font-size="11" fill="${t.muted}" text-anchor="middle">${ms === 0 ? '탭' : `${ms} ms`}</text>\n`
   }
@@ -109,6 +117,8 @@ function timeline(t) {
 
 for (const [mode, t] of Object.entries(THEMES)) {
   writeFileSync(new URL(`case1-frames-${mode}.svg`, out), frames(t))
+  writeFileSync(new URL(`case1-frames-${mode}-narrow.svg`, out), frames(t, true))
   if (trace) writeFileSync(new URL(`case1-trace-${mode}.svg`, out), timeline(t))
+  if (trace) writeFileSync(new URL(`case1-trace-${mode}-narrow.svg`, out), timeline(t, true))
 }
-console.log(`charts -> docs/case1-frames-{light,dark}.svg${trace ? ' and docs/case1-trace-{light,dark}.svg' : ''}`)
+console.log(`charts -> docs/case1-frames-{light,dark}[-narrow].svg${trace ? ' and docs/case1-trace-{light,dark}[-narrow].svg' : ''}`)
