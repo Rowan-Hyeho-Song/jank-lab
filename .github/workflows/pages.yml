@@ -1,4 +1,4 @@
-# Builds the demos and publishes them to GitHub Pages: /case-2/ (and the index at /).
+# Builds the demos and publishes them to GitHub Pages: /case-1/ (static page), /case-2/ (and the index at /).
 # Turn it on in the repository settings: Pages -> Build and deployment -> Source: GitHub Actions.
 name: pages
 
@@ -31,8 +31,11 @@ jobs:
       - run: pnpm build
       - name: assemble the site
         run: |
-          mkdir -p _site/case-2
+          mkdir -p _site/case-1 _site/case-2
           cp site/index.html _site/
+          # case 1 is an Android app: a static page with its recording and charts, no build
+          cp site/case-1/index.html _site/case-1/
+          cp cases/01-detail-transition/docs/case1-ab.gif cases/01-detail-transition/docs/case1-*.svg _site/case-1/
           cp -r cases/02-infinite-scroll/dist/. _site/case-2/
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
