@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 884" width="360" height="884" role="img" aria-labelledby="t d" font-family="system-ui, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif">
+<title id="t">상세 화면 열기의 프레임</title>
+<desc id="d">A 그대로: 밀린 프레임 77%, p99 400 ms, 전환 끝 522 ms; B 고침: 밀린 프레임 9.3%, p99 350 ms, 전환 끝 350 ms; C 그리기 줄이기: 밀린 프레임 75%, p99 350 ms, 전환 끝 514 ms; D 애니메이션 빼기: 밀린 프레임 68%, p99 400 ms, 전환 끝 25 ms; E 미루고 나누기: 밀린 프레임 58%, p99 200 ms, 전환 끝 351 ms. 재현 측정값.</desc>
+<rect width="360" height="884" rx="12" fill="#fcfcfb"/>
+<text x="24" y="30" font-size="16" font-weight="600" fill="#0b0b0b">상세 화면을 여는 동안의 프레임</text>
+<text x="24" y="50" font-size="12" fill="#52514e">재현 측정값 · SM-S916N, Android 17 · 릴리스 빌드</text>
+<text x="24" y="68" font-size="12" fill="#52514e">열기 30회 × 3세트 중앙값 · 짧을수록 좋음</text>
+<text x="24" y="106" font-size="12" font-weight="600" fill="#52514e">밀린 프레임 (%)</text>
+<text x="24" y="132" font-size="12" fill="#0b0b0b">A 그대로</text>
+<path d="M136 120h146a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-146z" fill="#2a78d6"/>
+<text x="292" y="133" font-size="12" fill="#0b0b0b" style="font-variant-numeric: tabular-nums">77</text>
+<text x="24" y="162" font-size="12" fill="#0b0b0b">B 고침</text>
+<path d="M136 150h13.982172845885543a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-13.982172845885543z" fill="#eb6834"/>
+<text x="159.98217284588554" y="163" font-size="12" fill="#0b0b0b" style="font-variant-numeric: tabular-nums">9.3</text>
+<text x="24" y="192" font-size="12" fill="#0b0b0b">C 그리기 줄이기</text>
+<path d="M136 180h140.6712311070921a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-140.6712311070921z" fill="#1baf7a"/>
+<text x="286.6712311070921" y="193" font-size="12" fill="#0b0b0b" style="font-variant-numeric: tabular-nums">75</text>
+<text x="24" y="222" font-size="12" fill="#0b0b0b">D 애니메이션 빼기</text>
+<path d="M136 210h128.11471386125825a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-128.11471386125825z" fill="#eda100"/>
+<text x="274.1147138612582" y="223" font-size="12" fill="#0b0b0b" style="font-variant-numeric: tabular-nums">68</text>
+<text x="24" y="252" font-size="12" fill="#0b0b0b">E 미루고 나누기</text>
+<path d="M136 240h107.63286397106317a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-107.63286397106317z" fill="#e87ba4"/>
+<text x="253.63286397106316" y="253" font-size="12" fill="#0b0b0b" style="font-variant-numeric: tabular-nums">58</text>
+<line x1="136" x2="136" y1="114" y2="260" stroke="#c3c2b7" stroke-width="1"/>
+<text x="24" y="300" font-size="12" font-weight="600" fill="#52514e">99번째 백분위 프레임 (ms)</text>
+<text x="24" y="326" font-size="12" fill="#0b0b0b">A 그대로</text>
+<path d="M136 314h146a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-146z" fill="#2a78d6"/>
+<text x="292" y="327" font-size="12" fill="#0b0b0b" style="font-variant-numeric: tabular-nums">400</text>
+<text x="24" y="356" font-size="12" fill="#0b0b0b">B 고침</text>
+<path d="M136 344h127.25a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-127.25z" fill="#eb6834"/>
+<text x="273.25" y="357" font-size="12" fill="#0b0b0b" style="font-variant-numeric: tabular-nums">350</text>
+<text x="24" y="386" font-size="12" fill="#0b0b0b">C 그리기 줄이기</text>
+<path d="M136 374h127.25a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-127.25z" fill="#1baf7a"/>
+<text x="273.25" y="387" font-size="12" fill="#0b0b0b" style="font-variant-numeric: tabular-nums">350</text>
+<text x="24" y="416" font-size="12" fill="#0b0b0b">D 애니메이션 빼기</text>
+<path d="M136 404h146a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-146z" fill="#eda100"/>
+<text x="292" y="417" font-size="12" fill="#0b0b0b" style="font-variant-numeric: tabular-nums">400</text>
+<text x="24" y="446" font-size="12" fill="#0b0b0b">E 미루고 나누기</text>
+<path d="M136 434h71a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-71z" fill="#e87ba4"/>
+<text x="217" y="447" font-size="12" fill="#0b0b0b" style="font-variant-numeric: tabular-nums">200</text>
+<line x1="136" x2="136" y1="308" y2="454" stroke="#c3c2b7" stroke-width="1"/>
+<text x="24" y="494" font-size="12" font-weight="600" fill="#52514e">Slow UI thread 프레임 (열기 30회) (개)</text>
+<text x="24" y="520" font-size="12" fill="#0b0b0b">A 그대로</text>
+<path d="M136 508h39.31550802139037a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-39.31550802139037z" fill="#2a78d6"/>
+<text x="185.31550802139037" y="521" font-size="12" fill="#0b0b0b" style="font-variant-numeric: tabular-nums">270</text>
+<text x="24" y="550" font-size="12" fill="#0b0b0b">B 고침</text>
+<path d="M136 538h6.427807486631016a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-6.427807486631016z" fill="#eb6834"/>
+<text x="152.42780748663102" y="551" font-size="12" fill="#0b0b0b" style="font-variant-numeric: tabular-nums">65</text>
+<text x="24" y="580" font-size="12" fill="#0b0b0b">C 그리기 줄이기</text>
+<path d="M136 568h38.99465240641711a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-38.99465240641711z" fill="#1baf7a"/>
+<text x="184.99465240641712" y="581" font-size="12" fill="#0b0b0b" style="font-variant-numeric: tabular-nums">268</text>
+<text x="24" y="610" font-size="12" fill="#0b0b0b">D 애니메이션 빼기</text>
+<path d="M136 598h5.625668449197862a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-5.625668449197862z" fill="#eda100"/>
+<text x="151.62566844919786" y="611" font-size="12" fill="#0b0b0b" style="font-variant-numeric: tabular-nums">60</text>
+<text x="24" y="640" font-size="12" fill="#0b0b0b">E 미루고 나누기</text>
+<path d="M136 628h146a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-146z" fill="#e87ba4"/>
+<text x="292" y="641" font-size="12" fill="#0b0b0b" style="font-variant-numeric: tabular-nums">935</text>
+<line x1="136" x2="136" y1="502" y2="648" stroke="#c3c2b7" stroke-width="1"/>
+<text x="24" y="688" font-size="12" font-weight="600" fill="#52514e">탭 → 전환 끝 (ms)</text>
+<text x="24" y="714" font-size="12" fill="#0b0b0b">A 그대로</text>
+<path d="M136 702h146a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-146z" fill="#2a78d6"/>
+<text x="292" y="715" font-size="12" fill="#0b0b0b" style="font-variant-numeric: tabular-nums">522</text>
+<text x="24" y="744" font-size="12" fill="#0b0b0b">B 고침</text>
+<path d="M136 732h96.62236690923017a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-96.62236690923017z" fill="#eb6834"/>
+<text x="242.62236690923015" y="745" font-size="12" fill="#0b0b0b" style="font-variant-numeric: tabular-nums">350</text>
+<text x="24" y="774" font-size="12" fill="#0b0b0b">C 그리기 줄이기</text>
+<path d="M136 762h143.75947912677134a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-143.75947912677134z" fill="#1baf7a"/>
+<text x="289.75947912677134" y="775" font-size="12" fill="#0b0b0b" style="font-variant-numeric: tabular-nums">514</text>
+<text x="24" y="804" font-size="12" fill="#0b0b0b">D 애니메이션 빼기</text>
+<path d="M136 792h3.0375335120643427a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-3.0375335120643427z" fill="#eda100"/>
+<text x="149.03753351206433" y="805" font-size="12" fill="#0b0b0b" style="font-variant-numeric: tabular-nums">25</text>
+<text x="24" y="834" font-size="12" fill="#0b0b0b">E 미루고 나누기</text>
+<path d="M136 822h96.90961317502872a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-96.90961317502872z" fill="#e87ba4"/>
+<text x="242.9096131750287" y="835" font-size="12" fill="#0b0b0b" style="font-variant-numeric: tabular-nums">351</text>
+<line x1="136" x2="136" y1="696" y2="842" stroke="#c3c2b7" stroke-width="1"/>
+<line x1="233.66373037150515" x2="233.66373037150515" y1="696" y2="842" stroke="#6f6d68" stroke-width="1" stroke-dasharray="3 3"/>
+<text x="233.66373037150515" y="688" font-size="11" fill="#6f6d68" text-anchor="middle">설계 340</text>
+</svg>

@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <title>사례 1 · 상세 화면 전환이 끊기는 문제 · jank-lab</title>
+    <!-- Case 1 is an Android app, so its page shows the recording and the charts (pages.yml copies them next to this file).
+         Every sentence below is the README's case 1 section, word for word; change the README first. -->
+    <style>
+      :root { --bg: #f6f5f2; --text: #1d1d1f; --muted: #62605b; --line: #e2dfd8; --link: #1f5fc4; }
+      @media (prefers-color-scheme: dark) { :root { --bg: #121316; --text: #ecebe8; --muted: #a3a09a; --line: #2c2f35; --link: #8ab4ff; } }
+      body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.6 system-ui, -apple-system, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif; word-break: keep-all; overflow-wrap: anywhere; }
+      main { max-width: 640px; margin: 0 auto; padding: 48px 16px; }
+      a { color: var(--link); }
+      a:focus-visible { outline: 2px solid var(--link); outline-offset: 2px; border-radius: 4px; }
+      .back { margin: 0 0 16px; font-size: 15px; }
+      .back a { display: inline-flex; align-items: center; min-height: 44px; }
+      h1 { margin: 0 0 16px; font-size: 24px; line-height: 1.4; }
+      p { margin: 0 0 16px; }
+      .lead { font-size: 17px; line-height: 1.6; }
+      .note { color: var(--muted); font-size: 15px; }
+      figure { margin: 32px 0; }
+      img { display: block; max-width: 100%; height: auto; }
+      .rec img { border-radius: 12px; }
+      figcaption { margin-top: 12px; font-size: 15px; }
+      figcaption p { margin: 0 0 8px; }
+      figcaption ul { margin: 0; padding-left: 1.25em; color: var(--muted); }
+      .links { margin: 32px 0 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+      .links li { border-bottom: 1px solid var(--line); }
+      .links a { display: flex; align-items: center; min-height: 48px; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <p class="back"><a href="../">← jank-lab</a></p>
+      <h1>사례 1 · 상세 화면 전환이 끊기는 문제</h1>
+      <p class="lead">전환 중 밀린 frame 77% → 9%, 전환 시간 522 → 350 ms(설계 340 ms대로), Slow UI thread 270 → 65. GPU는 A · B 모두 p99 10 ms 안이라 원인이 아니었습니다.</p>
+
+      <figure class="rec">
+        <img
+          src="./case1-ab.gif"
+          width="612"
+          height="658"
+          alt="왼쪽 A, 오른쪽 B. 같은 상품을 열었다가 닫는다. 위 계기판의 점 일곱 개는 UI thread가 그리는 파도다. A는 사진이 hero로 가다가 멈추고 그동안 점도 한 모양으로 굳는다. B는 transition 내내 점이 흐르고, transition이 끝난 뒤 리뷰를 mount할 때 잠깐 굳는다."
+        />
+        <figcaption>
+          <p>왼쪽이 A, 오른쪽이 B입니다. 맨 위 계기판의 점 일곱 개는 native driver로 도는 파도라서 UI thread가 막히면 함께 멈춥니다.</p>
+          <ul>
+            <li>A는 사진이 hero 자리로 가다 멈추고, 그동안 점도 한 모양으로 굳습니다.</li>
+            <li>B는 transition 내내 점이 흐르고, 끝난 뒤 리뷰를 mount할 때 잠깐 굳습니다.</li>
+            <li>계기판 둘째 줄은 탭부터 "전환 끝"과 "리뷰 표시"까지 걸린 시간입니다.</li>
+          </ul>
+        </figcaption>
+      </figure>
+
+      <figure>
+        <picture>
+          <source media="(max-width: 640px) and (prefers-color-scheme: dark)" srcset="./case1-frames-dark-narrow.svg" width="360" height="884" />
+          <source media="(max-width: 640px)" srcset="./case1-frames-light-narrow.svg" width="360" height="884" />
+          <source media="(prefers-color-scheme: dark)" srcset="./case1-frames-dark.svg" />
+          <img
+            src="./case1-frames-light.svg"
+            width="760"
+            height="478"
+            loading="lazy"
+            alt="상세 화면을 여는 동안의 frame. 밀린 frame: A 77%, B 9.3%, C 75%, D 68%, E 58%. 탭에서 transition 끝까지: A 522 ms, B 350 ms(설계 340 ms)."
+          />
+        </picture>
+      </figure>
+
+      <figure>
+        <picture>
+          <source media="(max-width: 640px) and (prefers-color-scheme: dark)" srcset="./case1-trace-dark-narrow.svg" width="360" height="396" />
+          <source media="(max-width: 640px)" srcset="./case1-trace-light-narrow.svg" width="360" height="396" />
+          <source media="(prefers-color-scheme: dark)" srcset="./case1-trace-dark.svg" />
+          <img
+            src="./case1-trace-light.svg"
+            width="760"
+            height="360"
+            loading="lazy"
+            alt="탭부터 1초 동안 thread가 일한 구간. A는 설계한 transition 동안 UI thread가 거의 쉬지 않고 RenderThread는 비어 있다. B는 transition 동안 RenderThread가 frame을 그리고, UI thread의 긴 구간은 transition이 끝난 뒤에 온다."
+          />
+        </picture>
+      </figure>
+
+      <p class="note">그래프는 이 저장소의 <strong>재현 측정값</strong>입니다. 제품에서 잰 기록값은 <a href="https://github.com/Rowan-Hyeho-Song/jank-lab#결과">결과</a>에 따로 적었습니다.</p>
+
+      <ul class="links">
+        <li><a href="https://github.com/Rowan-Hyeho-Song/jank-lab#사례-1--상세-화면-전환이-끊기는-문제">README 사례 1 절 ↗</a></li>
+        <li><a href="https://github.com/Rowan-Hyeho-Song/jank-lab/tree/main/cases/01-detail-transition">소스 폴더 cases/01-detail-transition ↗</a></li>
+      </ul>
+    </main>
+  </body>
+</html>
